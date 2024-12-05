@@ -1,8 +1,8 @@
-# React + Vite
+# BookHaven
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A digital library having fetures of renting, purchasing and can read online. Currently featuring the mock of purchasing and renting. 
+The real implementation which is to implement are payment system and online reading
 
-Currently, two official plugins are available:
+## Technology used to build 
+- React Js 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
