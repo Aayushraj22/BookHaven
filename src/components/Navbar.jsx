@@ -46,7 +46,7 @@ function Navbar() {
   return (
     <nav className='h-20 bg-stone-300 dark:bg-stone-800 flex px-3'>
         <Link to='/' className=' h-full w-32 flex items-center justify-center'>
-            <Image src='./src/assets/logo.png' height='h-16' width='w-16' />
+            <Image src='logo.png' height='h-16' width='w-16' />
         </Link>
         <div className='flex-1  h-full flex items-center justify-center '>
             <Searchbar />
@@ -84,7 +84,7 @@ function Navbar() {
 
         <div className='grid place-content-center relative'>
           <Image 
-            src='./src/assets/setting.png' 
+            src='setting.png' 
             height='h-10' 
             width='w-10'
             cursor={'cursor-pointer'}

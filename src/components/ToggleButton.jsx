@@ -3,7 +3,7 @@ import Image from './Image'
 
 
 function ToggleButton() {
-    const themeMode = ['./src/assets/light.png', './src/assets/dark.png']
+    const themeMode = ['light.png', 'dark.png']
     const rootEle = document.getElementById('root')
     const [theme, setTheme] = useState(!rootEle.classList.contains('dark'))
 
