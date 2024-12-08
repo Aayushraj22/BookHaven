@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
+import { fetchData } from '../utility'
 
 function Searchbar() {
   const [searchResult, setSearchResult] = useState([])
@@ -25,21 +26,15 @@ function Searchbar() {
 
 
   const handleSearchResult = async () => {
-    const url = `${import.meta.env.VITE_DOMAIN_NAME}/books/search?searchText=${searchText}`
+    const endpoint = `books/search?searchText=${searchText}`
+    fetchData(endpoint)
+    .then((data) => {
+      if (data) {
+        setSearchResult(result)
+      } 
 
-    try {
-      const response = await fetch(url)
-
-      const result = await response.json()
-      console.log('result: ',result)
-
-      setSearchResult(result)
-    } catch (error) {
-      console.log('error occurs')
-    } finally {
-      console.log('search api called')
       setSearchText('')
-    }
+    })
   }
   
   return (

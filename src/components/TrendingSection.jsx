@@ -1,31 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import Bookcard from './Bookcard'
+import { fetchData } from '../utility'
+import BookcardSkeleton from './BookcardSkeleton'
+import { useNavigate } from 'react-router-dom'
 
 function TrendingSection({title, featuring}) {
-    const [books, setBooks] = useState([])
+    const [books, setBooks] = useState(undefined)
+    const navigate = useNavigate()
 
     useEffect(() => {
+  
+        const endpoint = `books/top5/${featuring}`
 
-        async function fetchData(){
-            let data = await fetch(`${import.meta.env.VITE_DOMAIN_NAME}/books/top5/${featuring}`) 
-            // console.log(typeof data, ' printing it: ',data)
-            data = await data.json()
-            setBooks(data);
-        }
+        fetchData(endpoint, navigate)
+        .then(list => {
+            if(list) {
+                Promise.all(list?.map(item => fetchData(`books/${item.bookId}`)))
+                .then(data => setBooks(data))
+            }
 
-        // LATER BE DATA WILL BE USED
-        fetchData()      
-        
+        })
+       
     }, [])
     
   return (
     <section>
-        <header className='py-4 '>
-            <h1 className='pl-4 text-lg sm:text-xl lg:text-2xl font-semibold text-stone-800 dark:text-stone-400 capitalize'>{title}</h1>
+        <header className='py-4 bg-slate-100 dark:bg-slate-950'>
+            <h1 className='pl-4 lg:pl-16 text-lg sm:text-xl lg:text-3xl font-semibold text-stone-700 dark:text-slate-400 capitalize'>{title}</h1>
         </header>
 
-        <div className='grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-2 sm:p-10 '>
-            {books?.map(book => <Bookcard key={book.bookId || book.id} featuredBook={book} />)}
+        <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-20 xl:px-32'>
+            {books ? (books?.map(book => <Bookcard key={ book?.id} bookInfo={book} />)) : (
+                [1,2,3,4,5].map(item => <BookcardSkeleton key={item} />)
+            )}
         </div>
     </section>
   )

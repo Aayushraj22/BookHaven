@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { postData } from '../utility'
 
 function Signup() {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const handleSignupUser = (e) => {
         e.preventDefault()
@@ -18,11 +19,21 @@ function Signup() {
             userInputData[key] = value
         }
 
+        setLoading(true)
+
         // registering a new user
-        axios.post(`${import.meta.env.VITE_DOMAIN_NAME}/users/register`, userInputData).
-        then(() => {
-            console.log('user register success')
-            navigate('/login')
+        const endpoint = `users/register`
+        postData(endpoint, userInputData)
+        .then((data) => {
+            setLoading(false)
+            if(data) {
+                toastMsg('Registration ✅')
+                navigate('/login') 
+            } else {
+                toastMsg('Registration ❌')
+            }
+
+            
         })
 
         // console.log('form data: ',userInputData)
@@ -42,7 +53,7 @@ function Signup() {
                     bg='bg-blue-950' hover='hover:bg-blue-900' margin={'mt-3'}
                     color={'text-slate-500'}
                 >
-                    SignUp
+                    {loading ? 'Registering...' : 'Signup'}
                 </Button>
             </div>
             <div className='flex justify-center items-center gap-3 '>

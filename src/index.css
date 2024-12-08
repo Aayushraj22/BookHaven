@@ -9,3 +9,7 @@
     border: 1px solid red;
 } */
 
+/* global class */
+.responsive-grid-layout{
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}

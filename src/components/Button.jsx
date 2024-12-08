@@ -14,11 +14,13 @@ function Button({
     bg,
     clickMethod,
     hover,
+    padding,
 }) {
   return (
     <button 
         type={type ?? 'submit'}
-        className={`${width ?? 'w-28'} ${height ?? 'h-8'} ${border ?? ''} ${margin ?? ''} ${round ?? 'rounded'} ${borderRadius ?? ''} ${text ?? 'text-xs'} ${color ?? 'text-black'} ${bg ?? 'bg-slate-50'} ${hover ?? ''} capitalize`}
+        className={`${width ?? 'w-24'} ${height ?? 'h-8'} ${border ?? ''} ${margin ?? ''} ${round ?? 'rounded'} ${borderRadius ?? ''} ${text ?? 'text-xs'} ${color ?? 'text-black'} ${bg ?? 'bg-slate-50'} ${hover ?? ''} ${padding ?? 'p-0'} capitalize transition-all`}
+
         onClick={clickMethod}
     >
         {children}

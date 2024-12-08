@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { useLocation, useNavigate } from 'react-router-dom'
-import axios from 'axios'
-import { loggedInUserId } from '../utility'
+import { fetchData, postData, readLocalStorage } from '../utility'
 
 function PurchasePage() {
     const navigate = useNavigate()
@@ -20,15 +19,11 @@ function PurchasePage() {
         setPurchaseWay(prev => prev === 'rent' ? 'buy' : 'rent')
     }
 
-    function handleChangeQuantity (type) {
-        if(type === 'inc'){
-            // some logic happens to check in the db for availability
-            setQty(qty + 1)
-        } else {
-            // never becomes 0
-            if(qty !== 1){
-                setQty(prev => prev - 1)
-            }
+    // qty will increase by 1 but if parament passed tty decreases by 1
+    function handleChangeQuantity (sign=false) {
+        const newValue = qty + (-1)**(!!sign)
+        if(newValue >= 1){
+            setQty(newValue)
         }
     }
 
@@ -50,8 +45,8 @@ function PurchasePage() {
         // purchase.bookName = book.name;
 
         // including general details
-        purchase.price = book.price;
-        purchase.paid = '$'+formData.paid;
+        purchase.price = book?.price*qty;
+        purchase.paid = Number(formData?.paid);
         purchase.pType = purchaseWay;
         purchase.qty = qty
 
@@ -64,11 +59,11 @@ function PurchasePage() {
         }
 
         // autherised user ID
-        purchase.userId = loggedInUserId()
+        purchase.userId = readLocalStorage('uid')
 
-        console.log('purchase obj: ',purchase)
-
-        axios.post(`${import.meta.env.VITE_DOMAIN_NAME}/books/${book?.id}/purchase`, purchase, {withCredentials: true})
+        // console.log('purchase obj: ',purchase)
+        const endpoint = `books/${book?.id}/purchase`
+        postData(endpoint, purchase, {withCredentials: true})
         .then(() => {
             navigate('/myBooks')
         }).catch(err => {
@@ -80,57 +75,61 @@ function PurchasePage() {
     // console.log('purchasing user: ',user)
 
     useEffect(() => {
-        const userId = loggedInUserId()
-        const url = `${import.meta.env.VITE_DOMAIN_NAME}/users/${userId}`
+        const userId = readLocalStorage('uid')
 
-      axios.get(url, {withCredentials: true})
-      .then(response => setUser(response.data))
-      .catch(err => console.log('user fetching error'))
+        const endpoint = `users/${userId}`
+        fetchData(endpoint)
+        .then(data => {
+            if(data) {
+                setUser(data)
+            }
+        })
+
     }, [])
     
   return (
     <section className='bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 min-h-dvh p-2 lg:p-7'>
-        <header className='p-3 w-10/12 mx-auto rounded bg-sky-200'> 
-            <p><span className='capitalize font-semibold'>{purchaseWay}</span> Book <span className='capitalize font-semibold'>{book?.name}</span> written by <span className='capitalize font-semibold'>{book?.author}</span> at <span className='capitalize font-semibold'>{book?.publishedAt}</span></p>
-            <p>You have to Pay <span className='capitalize font-semibold text-green-600'>{book?.price}</span></p>
-            <p>
-                Quantity {qty} 
+        <header className='p-3 w-9/12 mx-auto rounded bg-blue-200 flex flex-col items-center text-slate-800'> 
+            <p className='capitalize font-serif font-semibold text-base md:text-lg'>{book?.name}</p>
+            <p className='capitalize font-semibold text-xs md:text-sm'>{book?.author}</p>
+            <div className='text-sm w-full mt-2'>
+                <span className='font-semibold text-sm md:text-sm'>{qty} Book </span>
                 <Button 
                     width='w-6' 
                     height='h-6' 
-                    bg='bg-green-600' 
-                    color='text-slate-50' 
+                    bg='bg-slate-100 hover:bg-slate-900' 
+                    color='text-slate-900 hover:text-sky-200' 
                     margin='ml-1' 
                     text='font-bold text-xs' 
-                    clickMethod={() => handleChangeQuantity('inc')}
+                    clickMethod={() => handleChangeQuantity()}
                 >
                     +
                 </Button>
                 <Button 
                     width='w-6' 
                     height='h-6' 
-                    bg='bg-red-600' 
-                    color='text-slate-50' 
+                    bg='bg-slate-100 hover:bg-slate-900' 
+                    color='text-slate-900 hover:text-sky-200' 
                     margin='ml-1' 
                     text='font-bold text-xs' 
-                    clickMethod={() => handleChangeQuantity('dec')}
+                    clickMethod={() => handleChangeQuantity(true)}
                 >
                     -
                 </Button>
-            </p>
+            </div>
         </header>
 
-        <div className='mx-auto w-9/12 mt-4 p-3 bg-yellow-500 rounded-lg'>
-            <p>Thinking of change Purchasing Way ? </p>
+        <div className='mx-auto w-9/12 mt-4 p-2 bg-pink-300 rounded-md text-xs md:text-sm '>
             <Button 
                 text='capitalise' 
-                color='text-yellow-200' 
-                bg='bg-black'
-                margin='mt-2' 
+                color='text-pink-200 hover"text-pink-300' 
+                bg='bg-pink-700 hover:bg-pink-600'
+                margin='mr-2' 
                 clickMethod={handleChangePurchaseWay}
             >
-                {purchaseWay === 'rent' ? 'buy' : 'rent'} book
+                {purchaseWay === 'rent' ? 'rent' : 'buy'} book
             </Button>
+            <span>Total <span className='font-semibold'>$ {book?.price*qty}</span></span>
         </div>
 
         <form 
@@ -142,10 +141,13 @@ function PurchasePage() {
             <Input name='address' />
             <Input name='phone no' type='tel' pValue={user?.phoneNo} required />
             <Input name='paid' type='Number' required />
+
+            {showWarning ? <p className='bg-red-300 text-red-600 font-semibold font-mono capitalize text-xs p-2 rounded border-b-2 border-b-red-800'>{showWarning}</p> : ''}
+
             <div className='flex gap-2'>
                 <Button 
-                    bg='bg-sky-800' 
-                    color='text-white' hover='hover:bg-blue-950 hover:text-white'
+                    bg='bg-blue-700' 
+                    color='text-white' hover='hover:bg-blue-800 hover:text-white'
                 >
                     submit
                 </Button>
@@ -156,7 +158,6 @@ function PurchasePage() {
                     cancel
                 </Button>
             </div>
-            {showWarning ? <p className='bg-red-600 text-red-300 font-semibold font-mono capitalize text-xs p-2 rounded border-b-2 border-b-red-800'>{showWarning}</p> : ''}
         </form>
     </section>
   )

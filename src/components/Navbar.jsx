@@ -4,8 +4,7 @@ import Searchbar from './Searchbar'
 import ToggleButton from './ToggleButton'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from './Button'
-import { logoutUser } from '../utility'
-import axios from 'axios'
+import { fetchData, logout } from '../utility'
 
 function Navbar() {
   const navigate = useNavigate()
@@ -27,10 +26,10 @@ function Navbar() {
   }
 
   useEffect(() => {
-    
-    const url = `${import.meta.env.VITE_DOMAIN_NAME}/users/auth-status`
-      axios.get(url, {withCredentials: true}).then(response => {
-        const data = response.data
+
+    const endpoint = `users/auth-status`
+    fetchData(endpoint)
+      .then(data => {
         if(data.status === 'authorized'){
           setIsAuthenticated(true)
         }
@@ -104,7 +103,7 @@ function Navbar() {
             </Link>
             {
               isAuthenticated ? (<Button 
-                clickMethod={isAuthenticated && logoutUser}
+                clickMethod={isAuthenticated && (() => logout(navigate))}
                 height='h-8'
                 width='w-full'
                 bg={isAuthenticated ? 'bg-transparent' : 'bg-sky-400 dark:bg-sky-500'}

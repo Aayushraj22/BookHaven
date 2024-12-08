@@ -1,11 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Input from '../components/Input'
 import Button from '../components/Button'
-import axios from 'axios'
+import { postData, setLocalStorage, toastMsg } from '../utility'
 
 function Signin() {
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
 
     const handleSigninUser = (e) => {
         e.preventDefault()
@@ -18,18 +19,23 @@ function Signin() {
             userInputData[key] = value
         }
 
+        setLoading(true)
+
         // registering a new user
-        axios.post(`${import.meta.env.VITE_DOMAIN_NAME}/users/login`, userInputData, {
-            withCredentials: true
-        }).
-        then((response) => {
-            console.log('user signin success')
-            console.log('sign in data: ',response.data)
-            localStorage.setItem('uid', response.data.uid)
-            navigate('/')
+        const endpoint = `users/login`
+        postData(endpoint, userInputData, {withCredentials: true})
+        .then(data => {
+            setLoading(false)
+
+            if(data){
+                setLocalStorage('uid', data.uid)
+                toastMsg('Login ✅', 'success')
+                navigate('/')
+            } else {
+                toastMsg('Login ❌', 'error')
+            }
         })
 
-        // console.log('form data: ',userInputData)
     }
   return (
     <section className='w-dvw h-dvh bg-slate-900 text-slate-200 py-4 flex justify-center items-center '>
@@ -47,7 +53,7 @@ function Signin() {
                         color={'text-slate-500'} 
                         margin={'mt-3'}
                     >
-                        SignIn
+                        {loading ? 'Signing...' : 'SignIn'}
                     </Button>
                 </div>
                 <div className='flex justify-center items-center py-4 gap-3'>
@@ -57,6 +63,8 @@ function Signin() {
                         bg='bg-stone-900' 
                         hover={'hover:bg-stone-800'}  
                         color={'text-stone-600'}
+                        width={'w-fit'}
+                        padding={'px-4'}
                         clickMethod={() => {navigate('/register')}} 
                     >
                         Create an Account

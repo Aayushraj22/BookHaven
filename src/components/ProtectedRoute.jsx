@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, Route } from 'react-router-dom'
-import { isUserAuthentic } from '../utility';
-import axios from 'axios';
+import { Navigate } from 'react-router-dom'
+import { fetchData } from '../utility';
 
 function ProtectedRoute({children}) {
     // const isAuthenticated = isUserAuthentic()
@@ -9,18 +8,18 @@ function ProtectedRoute({children}) {
     const [isLoading, setIsLoading] = useState(true)
     
     useEffect(() => {
-      const url = `${import.meta.env.VITE_DOMAIN_NAME}/users/auth-status`
-      axios.get(url, {withCredentials: true})
-      .then(response => {
+      const endpoint = `users/auth-status`
 
-        const data = response.data
+      fetchData(endpoint)
+      .then(data => {
         if(data.status === 'authorized'){
           setIsAuthenticated(true)
         }
-      })
-      .finally(() => {
+
         setIsLoading(false)
       })
+
+      
     }, [])
 
     if(isLoading) {

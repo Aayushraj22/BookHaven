@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 import Button from '../components/Button'
 import Gallery from '../components/Gallery'
-import Cookies from 'js-cookie'
+import { fetchData, readLocalStorage } from '../utility'
 
 function PurchasedBookPage() {
     const [books, setBooks] = useState([])
@@ -26,24 +25,30 @@ function PurchasedBookPage() {
     }
 
 
-
     useEffect(() => {
-        const userId = Cookies.get('uid');
-        const url = `${import.meta.env.VITE_DOMAIN_NAME}/users/myBooks?userId=${userId}`
-        fetch(url, {
-            method: 'GET',
-            credentials: 'include' // Ensures cookies are sent with the request
+        const userId = readLocalStorage('uid')
+        const endpoint = `users/myBooks?userId=${userId}`
+        fetchData(endpoint)
+        .then(data => {
+            if(data) {
+                Promise.all(data.map(obj => fetchData(`books/${obj.bookId}`)))
+                .then(list => {
+                    const userAllInfoList = []
+                    for(let ind=0; ind<data.length; ind++) {
+                        userAllInfoList.push({
+                            ...data[ind],
+                            ...list[ind],
+                        })
+                    }
+                    
+                    setBooks(userAllInfoList)
+                    setFilter({
+                        text: 'all',
+                        books: userAllInfoList,
+                    })
+                })
+            }
         })
-        .then(response => response.json())
-        .then((data) => {
-            // console.log('data: ',data)
-            setBooks(data)
-            setFilter({
-                text: 'all',
-                books: data,
-            })
-        })
-        .catch(err => console.log(err))
     }, [])
     
   return (
