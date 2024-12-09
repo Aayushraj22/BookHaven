@@ -10,6 +10,7 @@ function Image({
     margin,
     round,
     shadow,
+    cursor,
     clickMethod,
 }) {
   return (
@@ -18,7 +19,7 @@ function Image({
             src={src} 
             alt={alt ?? 'Image'} 
             onClick={clickMethod}
-            className={`object-contain ${width ?? 'w-60'} ${height ?? 'h-60'} ${border ?? ''} ${margin ?? ''} ${round ?? ''} ${borderRadius ?? ''} ${shadow ?? ''}`}
+            className={`object-contain ${width ?? 'w-60'} ${height ?? 'h-60'} ${border ?? ''} ${margin ?? ''} ${round ?? ''} ${borderRadius ?? ''} ${shadow ?? ''} ${cursor ?? 'cursor-default'}`}
         />
     </>
   )

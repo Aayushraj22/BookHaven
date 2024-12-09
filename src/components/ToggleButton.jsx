@@ -13,7 +13,7 @@ function ToggleButton() {
     }
   return (
     <div 
-        className='w-20 h-full flex justify-center items-center cursor-pointer gap-1 py-2'
+        className='w-full h-full flex justify-center items-center cursor-pointer gap-1 py-2 '
         onClick={toggleTheme}
     >
         <Image src={themeMode[Number(theme)]} width='w-6' height='h-6'/>

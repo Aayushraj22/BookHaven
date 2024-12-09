@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Pagination from '../components/Pagination'
 import Gallery from '../components/Gallery'
 import { fetchData } from '../utility'
+import { useNavigate } from 'react-router-dom'
 
 function GalleryPage() {
     const [books, setBooks] = useState(undefined)
@@ -11,6 +12,7 @@ function GalleryPage() {
     })
 
     const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
 
     const handlePageNoButtonOnClick = (e) => {
         const pageNo = e.target.textContent
@@ -26,7 +28,7 @@ function GalleryPage() {
         setIsLoading(true)
         const endpoint = `books?page=${pageInfo.curPage}`
 
-        fetchData(endpoint)
+        fetchData(endpoint, navigate)
         .then(data => {
             setBooks(data?.data)
             setPageInfo({
