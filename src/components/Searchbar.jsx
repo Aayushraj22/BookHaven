@@ -70,8 +70,7 @@ function Searchbar({closeSearchBox}) {
       />
 
       {searchResult?.length > 0 && (
-        <div className={`p-4 flex flex-col gap-2 items-end max-md:left-8 max-md:right-8 top-20 md:w-full md:top-16  bg-slate-200 dark:bg-slate-900 z-10 rounded-lg`}>
-        <ul className='flex-1 w-full'>
+        <ul className='p-4 w-full bg-slate-200 dark:bg-slate-900 rounded-md flex flex-col gap-1'>
           {searchResult?.map((book, index) => 
           <Link 
             key={book?.id} 
@@ -85,8 +84,8 @@ function Searchbar({closeSearchBox}) {
             <p>Published Year: {book?.publishedAt}</p>
             <span className='absolute rounded w-5 h-5 right-0 bottom-0 bg-stone-400 dark:bg-stone-700 grid place-items-center text-xs'>{index+1}</span>
           </Link>)}
-        </ul>
-      </div>)}
+        </ul>)
+      }
       
     </div>
   )
