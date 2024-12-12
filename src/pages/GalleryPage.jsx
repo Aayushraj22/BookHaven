@@ -8,7 +8,7 @@ function GalleryPage() {
     const [books, setBooks] = useState(undefined)
     const [pageInfo, setPageInfo] = useState({
         curPage: 1,
-        totalPage: undefined,
+        totalItems: undefined,
     })
 
     const [isLoading, setIsLoading] = useState(false)
@@ -22,6 +22,17 @@ function GalleryPage() {
         })
     }
 
+    const skeletonToDisplay = () => {
+        if(pageInfo.totalItems) {
+            const remainItems = pageInfo.totalItems  - (pageInfo.curPage - 1)*10
+            const result = remainItems > 10 ? 10 : remainItems
+            return result
+        }
+
+        return 10
+        
+    }
+
 
     useEffect(() => {
 
@@ -33,7 +44,7 @@ function GalleryPage() {
             setBooks(data?.data)
             setPageInfo({
                 ...pageInfo,
-                totalPage: Math.ceil(data.total / 10)
+                totalItems: data.total
             })
 
             setIsLoading(false)
@@ -44,11 +55,11 @@ function GalleryPage() {
   return (
     <section className='dark:bg-black dark:text-white'>
         <main>
-            <Gallery books={books} isLoading={isLoading}/>
+            <Gallery books={books} isLoading={isLoading} items={skeletonToDisplay()}/>
         </main>
 
         {/* pagination footer */}
-        {books && <Pagination total={pageInfo?.totalPage} clickMethod={handlePageNoButtonOnClick} curPage={pageInfo?.curPage} />}
+        {books && <Pagination total={Math.ceil(pageInfo?.totalItems / 10)} clickMethod={handlePageNoButtonOnClick} curPage={pageInfo?.curPage} />}
         
     </section>
   )
