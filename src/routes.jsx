@@ -15,6 +15,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PurchasedBookPage from "./pages/PurchasedBookPage";
 import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
+import AddBookPage from "./pages/AddBookPage";
 
 
 // Configure nested routes with JSX
@@ -24,6 +25,7 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Signin />} />
       <Route path="/register" element={<Signup />} />
       <Route path='/errorPage' element={<ErrorPage />} />
+      <Route path="/addBook" element={<AddBookPage />} />
       
       <Route path="/" element={<Layout />}>
         <Route index element={<App />} />  

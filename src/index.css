@@ -11,6 +11,6 @@
 
 /* global class */
 .responsive-grid-layout{
-    grid-template-columns: repeat(auto-fit, minmax(240px, 280px));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
     justify-content: center;
 }
