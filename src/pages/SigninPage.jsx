@@ -30,7 +30,7 @@ function Signin() {
             if(data){
                 setLocalStorage('uid', data.uid)
                 toastMsg('Login ✅', 'success')
-                navigate('/')
+                navigate(-1)
             } else {
                 toastMsg('Login ❌', 'error')
             }

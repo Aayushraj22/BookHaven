@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { fetchData } from '../utility';
 
@@ -30,7 +30,8 @@ function ProtectedRoute({children}) {
     
   return (
     <>
-      {isAuthenticated ? <>{children}</> : <Navigate to='/login' />}
+      
+      {isAuthenticated ? <Suspense>{children}</Suspense> : <Navigate to='/login' />}
     </>
   )
 }

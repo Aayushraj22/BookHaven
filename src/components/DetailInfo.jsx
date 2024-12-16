@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import Image from './Image'
+import { useDispatch } from 'react-redux'
+import { addWish } from '../redux/slices/WishlistSlice'
 
 function DetailInfo() {
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useDispatch()
   const obj = location.state
   // console.log('comes here with data: ', location.state)
   const [book, setBook] = useState({})
-  const {author, name, ratings, price, publishedAt, imgurl, description} = book;
+  const {author, name, ratings, price, publishedAt, imgurl, description, _id} = book;
 
   useEffect(() => {
     setBook(obj)
@@ -19,6 +22,7 @@ function DetailInfo() {
   function handleClickButton(usedFor){
     if(usedFor === 'wish') {
       // has to implement
+      dispatch(addWish(_id))
       
     } else {
       navigate('/purchase', {state: {
@@ -28,12 +32,14 @@ function DetailInfo() {
     }
   }
 
+
+
   return (
     <>
     <div className='p-2 dark:bg-stone-950 dark:text-stone-300 min-h-dvh px-4'>
       <div className='bg-blue-400 dark:bg-blue-800 p-2 rounded text-xs flex gap-1 items-center'>
         <span className='flex-1'>Price: $ {price}</span>
-        <Button height='h-6' width='w-6' bg='bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500' color='dark:text-stone-200'>+</Button>
+        <Button height='h-6' width='w-6' bg='bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500' color='dark:text-stone-200' clickMethod={() => handleClickButton('wish')}>+</Button>
         <Button height='h-8' width='w-12' bg='bg-stone-200 dark:bg-stone-950 hover:bg-green-500' color='dark:text-stone-200' clickMethod={() => handleClickButton('buy')}>Buy</Button>
         <Button height='h-8' width='w-12' bg='bg-stone-200 dark:bg-stone-950 hover:bg-pink-500' color='dark:text-stone-200' clickMethod={() => handleClickButton('rent')}>Rent</Button>
       </div>

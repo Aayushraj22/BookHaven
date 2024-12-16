@@ -5,6 +5,7 @@ import ToggleButton from './ToggleButton'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import { fetchData, logout } from '../utility'
+import { useSlice } from '../redux/utility'
 
 function Navbar() {
   const navigate = useNavigate()
@@ -12,6 +13,9 @@ function Navbar() {
   
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [showSearchBox, setShowSearchBox] = useState(false)
+  const [ slice, dispatch ] = useSlice('wish')
+  const {total} = slice
+
   function handleNavigation(path) {
     navigate(`/${path}`)
   }
@@ -127,6 +131,16 @@ function Navbar() {
                   hover='hover:bg-slate-400 hover:dark:bg-slate-950'
                 >
                   my books
+                </Button>
+                <Button 
+                  clickMethod={() => handleNavigation('myWish')}
+                  height='h-8'
+                  width='w-full'
+                  bg='bg-transparent'
+                  color='dark:text-slate-50'
+                  hover='hover:bg-slate-400 hover:dark:bg-slate-950'
+                >
+                  {total ? total : ''} wishlist
                 </Button>
                 <Button 
                   clickMethod={isAuthenticated && (() => logout(navigate))}

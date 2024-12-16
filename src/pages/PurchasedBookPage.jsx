@@ -83,7 +83,7 @@ function PurchasedBookPage() {
             </header>
             
             <div className='dark:bg-black dark:text-white'>
-                {filter?.books ? <Gallery books={filter?.books} title='My Collection'/> : <div className='text-center mt-10'>Getting Data...</div>}
+                {filter?.books ? <Gallery books={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <div className='text-center mt-10'>Getting Data...</div>}
                 
             </div>
         </main>

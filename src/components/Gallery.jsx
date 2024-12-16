@@ -9,6 +9,7 @@ function Gallery({
   title,
   isLoading,
   items,
+  usedFor
   }) {
 
 
@@ -21,7 +22,7 @@ function Gallery({
       <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-10 xl:px-32 '>
           {isLoading ? (
             new Array(items).fill().map((_, i) => i+1).map(item => <BookcardSkeleton key={item} />)) : (
-              books?.length ? books?.map(book => <Bookcard key={book.id} bookInfo={book} />) : <div>No Book</div>)
+              books?.length ? books?.map(book => <Bookcard key={book.id} bookInfo={book} usedFor={usedFor} />) : <div>No Book</div>)
           }
       </div>
     </>

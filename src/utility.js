@@ -39,11 +39,13 @@ async function fetchData(endpoint, navigate) {
         }
 
         console.log('error occues: ',error.message)
-        navigate(`/errorPage`, {
-            state: {
-                error: err
-            }
-        })
+        if(navigate) {
+            navigate(`/errorPage`, {
+                state: {
+                    error: err
+                }
+            })
+        }
 
         return undefined
     }
@@ -54,10 +56,23 @@ async function postData(endpoint, data, options) {
     const url = `${import.meta.env.VITE_DOMAIN_NAME}/${endpoint}`
 
     try {
-        const response = options ? await axios.post(url, data, options) : await axios.post(endpoint, data)
+        const response = options ? await axios.post(url, data, options) : await axios.post(url, data)
         return response.data
     } catch (error) {
         // console.log(`posting Data error: ${error.message}`)
+        return undefined
+    }
+}
+
+// delete a document whose id matches, id passed as queryParams
+async function deleteData (endpoint, key, value) {
+    const url = `${import.meta.env.VITE_DOMAIN_NAME}/${endpoint}?${key}=${value}`
+
+    try {
+        const response = await axios.delete(url, { withCredentials: true })
+        return response.data
+    } catch (error) {
+        console.log('error deletion: ',error.message)
         return undefined
     }
 }
@@ -93,7 +108,8 @@ export {
     isUserAuthentic, 
     logout, 
     fetchData,
-    postData, 
+    postData,
+    deleteData, 
     setLocalStorage,
     readLocalStorage,
     removeKeyFromLocalStorage,
