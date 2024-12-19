@@ -15,11 +15,11 @@ function GalleryPage() {
     const navigate = useNavigate()
 
     const handlePageNoButtonOnClick = (e) => {
-        const pageNo = e.target.textContent
-        setPageInfo({
-            ...pageInfo,
+        const pageNo = Number(e.target.textContent)
+        setPageInfo(prev => ({
+            ...prev,
             curPage: pageNo,
-        })
+        }))
     }
 
     const skeletonToDisplay = () => {
@@ -46,7 +46,7 @@ function GalleryPage() {
                 ...pageInfo,
                 totalItems: data.total
             })
-
+        }).finally(() => {
             setIsLoading(false)
         })      
         

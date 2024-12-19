@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react'
+import React, { useCallback } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import Image from './Image'
 import Button from './Button'
 import { addWish, deleteWish } from '../redux/slices/WishlistSlice'
 import { useSlice } from '../redux/utility'
-import { readLocalStorage } from '../utility'
+import { postData, readLocalStorage, toastMsg } from '../utility'
 
 
 function Bookcard({ bookInfo, usedFor='default' }) {
-  const {imgurl, name, author, price, _id } = bookInfo
+  const {imgurl, name, author, price, _id, ratings } = bookInfo
   const [slice, dispatch] = useSlice('wish')
   const navigate = useNavigate()
 
@@ -30,6 +30,36 @@ function Bookcard({ bookInfo, usedFor='default' }) {
     return !!value
   }
 
+  const countRating = () => {
+      const obj = {
+        rateby: 0,      // no of people rated
+        rate: 0,        // avg ratings on scale 5
+      }
+
+      const ratingList = Object.keys(ratings)   // list of keys
+      obj.rateby = ratingList.length 
+      
+      if(ratingList.length)
+        obj.rate = Math.ceil(ratingList.reduce((total,key) => (total + Number(ratings[key])), 0) / ratingList.length)
+
+      return obj;
+    }
+
+  const handleRateBook = async (e) => {
+    const value = e.target.value;
+
+    if(e.key === 'Enter' && value) {
+        const endpoint = `rates/${bookInfo.id}`
+        const data = {
+            rated: value
+        }
+        const response = await postData(endpoint, data, {withCredentials: true})
+        toastMsg(response, 'success')
+        
+    }
+  }
+  
+  const bookRating = countRating()?.rate;
   const isWished = verifyIsWished()
 
   return (
@@ -49,9 +79,35 @@ function Bookcard({ bookInfo, usedFor='default' }) {
             >
                 <Link to='/bookDetails' className='h-full w-full grid place-items-center rounded' state={bookInfo}>Read More</Link>
             </Button> 
-            <span title='price' className='ml-2'>$ {price}</span>
+            <span title='price' className='ml-2 select-none'>$ {price}</span>
             <div className='float-right inline-block my-2 py-1'>
-                {usedFor === 'myBooks' ? ('') : (<>
+                {usedFor === 'myBooks' ? (
+                    <label 
+                        className='bg-stone-100 dark:bg-stone-900 text-slate-900 dark:text-slate-100 rounded-sm p-1'
+                    >
+                        <input 
+                            type='number' 
+                            title='rate me' 
+                            min={0} 
+                            max={5}
+                            placeholder={bookRating || 5}
+                            className='bg-transparent w-8 h-8 border-none outline-none'
+
+                            onKeyDown={handleRateBook}
+                        />
+                        ⭐
+                    </label>) : (<>
+                    {bookRating ? (
+                        <Button 
+                            width={'w-12'} 
+                            height={'h-6'} 
+                            bg={'bg-stone-50 dark:bg-stone-950'} 
+                            color={'dark:text-stone-200'}
+                            hover={'cursor-default'}
+                        >
+                            {bookRating} ⭐
+                        </Button>) : ''
+                    }
                     <Button 
                         height='h-6' 
                         width='w-6' 

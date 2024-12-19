@@ -1,12 +1,13 @@
 import Cookies from 'js-cookie'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { resetWishlist } from './redux/slices/WishlistSlice'
 
 function isUserAuthentic () {
     return localStorage.getItem('uid') 
 }
 
-const logout = (navigate) => {
+const logout = (navigate, dispatch) => {
     // logout user in backend server (dead cookie)
     const endpoint = `users/logout`
     fetchData(endpoint)
@@ -16,6 +17,9 @@ const logout = (navigate) => {
             Cookies.remove('token')
             Cookies.remove('uid')
             removeKeyFromLocalStorage('uid')
+
+            // remove wish state 
+            dispatch(resetWishlist())
             
             toastMsg('Sign Out ✅', 'success')
             navigate('/')

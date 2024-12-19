@@ -143,7 +143,7 @@ function Navbar() {
                   {total ? total : ''} wishlist
                 </Button>
                 <Button 
-                  clickMethod={isAuthenticated && (() => logout(navigate))}
+                  clickMethod={isAuthenticated && (() => logout(navigate, dispatch))}
                   height='h-8'
                   width='w-full'
                   bg={'bg-red-500 dark:bg-red-700'}
