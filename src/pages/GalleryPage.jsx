@@ -15,7 +15,15 @@ function GalleryPage() {
     const navigate = useNavigate()
 
     const handlePageNoButtonOnClick = (e) => {
-        const pageNo = Number(e.target.textContent)
+        let pageNo = e.target.textContent 
+        if(pageNo === '>') {    // demand of next page
+            pageNo = pageInfo.curPage + 1;
+        } else if (pageNo === '<') {    // demand of prev page
+            pageNo = pageInfo.curPage - 1;
+        } else {
+            pageNo = Number(pageNo)
+        }
+
         setPageInfo(prev => ({
             ...prev,
             curPage: pageNo,
@@ -48,7 +56,7 @@ function GalleryPage() {
             })
         }).finally(() => {
             setIsLoading(false)
-        })      
+        })    
         
     }, [pageInfo.curPage])
 

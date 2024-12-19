@@ -8,7 +8,7 @@ import { postData, readLocalStorage, toastMsg } from '../utility'
 
 
 function Bookcard({ bookInfo, usedFor='default' }) {
-  const {imgurl, name, author, price, _id, ratings } = bookInfo
+  const {imgurl, name, authors, price, _id, ratings } = bookInfo
   const [slice, dispatch] = useSlice('wish')
   const navigate = useNavigate()
 
@@ -70,7 +70,7 @@ function Bookcard({ bookInfo, usedFor='default' }) {
         />
         <div className='text-xs px-2 mt-2 capitalize'>
             <p className='text-base font-mono '>{name}</p>
-            <p className='font-serif' title='Author'>{author}</p>
+            <p className='font-serif' title='Author'>{authors?.[0]?.name}</p>
             <Button 
                 bg={'bg-slate-200 dark:bg-slate-800'}
                 color={'text-slate-900 dark:text-slate-200'}
