@@ -3,6 +3,7 @@ import Pagination from '../components/Pagination'
 import Gallery from '../components/Gallery'
 import { fetchData } from '../utility'
 import { useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 
 function GalleryPage() {
     const [books, setBooks] = useState(undefined)
@@ -10,6 +11,8 @@ function GalleryPage() {
         curPage: 1,
         totalItems: undefined,
     })
+
+    const abortControllerRef = useRef(null)
 
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
@@ -43,20 +46,34 @@ function GalleryPage() {
 
 
     useEffect(() => {
+        if(abortControllerRef.current) {
+            abortControllerRef.current.abort()
+        }
+
+        const abortController = new AbortController()
+        abortControllerRef.current = abortController
 
         setIsLoading(true)
         const endpoint = `books?page=${pageInfo.curPage}`
 
         fetchData(endpoint, navigate)
         .then(data => {
-            setBooks(data?.data)
-            setPageInfo({
-                ...pageInfo,
-                totalItems: data.total
-            })
+            if(!abortController.signal.aborted) {
+                setBooks(data?.data)
+                setPageInfo({
+                    ...pageInfo,
+                    totalItems: data.total
+                })
+            }
         }).finally(() => {
-            setIsLoading(false)
+            if(!abortController.signal.aborted){
+                setIsLoading(false)
+            }
         })    
+
+        return () => {
+            abortController.abort()
+        }
         
     }, [pageInfo.curPage])
 
