@@ -13,6 +13,7 @@ import Layout from "./pages/Layout";
 import ErrorPage from "./pages/ErrorPage";
 import AddBookPage from "./pages/AddBookPage";
 import { lazy, Suspense } from "react";
+import AuthorPage from "./pages/AuthorPage";
 
 const Signin = lazy(() => import('./pages/SigninPage'))
 const Signup = lazy(() => import('./pages/SignupPage'))
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
         <Route index element={<App />} />  
         <Route path="bookDetails" element={<DetailInfo />} />
         <Route path="gallery" element={<GalleryPage />} />
+        <Route path='author/:id' element={<AuthorPage />} />
         <Route path="myBooks" element={<ProtectedRoute >
           <PurchasedBookPage />
         </ProtectedRoute> } />

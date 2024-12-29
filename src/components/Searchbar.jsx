@@ -19,7 +19,7 @@ function Searchbar({closeSearchBox}) {
 
 
   const handleEnterPress = (e) => {
-    if(e.keyCode === 13) {
+    if(e.keyCode === 13 && searchText.trim()){ 
       handleSearchResult()
     }
   }
@@ -70,7 +70,7 @@ function Searchbar({closeSearchBox}) {
       />
 
       {searchResult?.length > 0 && (
-        <ul className='p-4 w-full bg-slate-200 dark:bg-slate-900 rounded-md flex flex-col gap-1'>
+        <ul className='p-4 w-full bg-slate-200 dark:bg-slate-900 rounded-md flex flex-col gap-1 overflow-y-auto max-h-72 border-2 border-green-400'>
           {searchResult?.map((book, index) => 
           <Link 
             key={book?.id} 
@@ -80,7 +80,7 @@ function Searchbar({closeSearchBox}) {
             onClick={closeSearchBox}
           >
             <p className='capitalize'>{book?.name}</p>
-            <p className='capitalize'>Author: {book?.author}</p>
+            <p className='capitalize'>Author: {book?.authors?.length >= 1 ? book?.authors[0]?.name :'author not defined'} </p>
             <p>Published Year: {book?.publishedAt}</p>
             <span className='absolute rounded w-5 h-5 right-0 bottom-0 bg-stone-400 dark:bg-stone-700 grid place-items-center text-xs'>{index+1}</span>
           </Link>)}

@@ -26,7 +26,7 @@ function Bookcard({ bookInfo, usedFor='default' }) {
   }
 
   function verifyIsWished (){
-    const value = slice.wishlist.find(item => item._id === _id)
+    const value = slice?.wishlist?.find(item => item._id === _id)
     return !!value
   }
 

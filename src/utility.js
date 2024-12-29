@@ -63,7 +63,7 @@ async function postData(endpoint, data, options) {
         const response = options ? await axios.post(url, data, options) : await axios.post(url, data)
         return response.data
     } catch (error) {
-        // console.log(`posting Data error: ${error.message}`)
+        // console.log(`posting Data error: `,error.status)
         return undefined
     }
 }

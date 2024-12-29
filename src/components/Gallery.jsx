@@ -12,11 +12,12 @@ function Gallery({
   usedFor
   }) {
 
+    console.log('books : ',books)
 
   return (
     <>
-      <header className='py-4 '>
-          <h1 className='pl-4 text-lg sm:text-2xl lg:text-3xl font-semibold font-serif'>{title ?? `Book Gallery`}</h1>
+      <header className='py-4 border'>
+          <p className='pl-2 md:pl-10 text-lg sm:text-2xl lg:text-3xl font-semibold font-serif capitalize '>{title ?? `Book Gallery`}</p>
       </header>
 
       <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-10 xl:px-32 '>

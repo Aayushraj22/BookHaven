@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import Image from './Image'
 import { useDispatch } from 'react-redux'
 import { addWish } from '../redux/slices/WishlistSlice'
+import { readLocalStorage } from '../utility'
 
 function DetailInfo() {
   const navigate = useNavigate()
@@ -12,16 +13,17 @@ function DetailInfo() {
   const obj = location.state
   // console.log('comes here with data: ', location.state)
   const [book, setBook] = useState({})
-  const {author, name, ratings, price, publishedAt, imgurl, description, _id} = book;
-
-  useEffect(() => {
-    setBook(obj)
-  }, [obj])
-  
+  const {authors, name, ratings, price, publishedAt, imgurl, description, _id} = book;
 
   function handleClickButton(usedFor){
     if(usedFor === 'wish') {
-      // has to implement
+      
+      // user must be signed-in to add into wish
+      if(!readLocalStorage('uid')) {
+        navigate('/login')
+        return;
+      }
+
       dispatch(addWish(_id))
       
     } else {
@@ -31,6 +33,13 @@ function DetailInfo() {
       }})
     }
   }
+
+  console.log('book: ',book)
+
+  useEffect(() => {
+    setBook(obj)
+  }, [obj])
+
 
 
 
@@ -48,7 +57,7 @@ function DetailInfo() {
       <div className='flex p-2 px-4 '>
         <Image src={imgurl} alt={name} height='h-80' width='w-3/5' />
         <div className='flex flex-col  lg:text-sm w-2/5 justify-center gap-1  capitalize text-sm'>
-          <p>Author: <span className=' font-semibold text-stone-900 dark:text-stone-400'>{author}</span></p>
+          <p>Author: <span className=' font-semibold text-stone-900 dark:text-stone-400'>{authors?.map(author => <Link key={author._id} to={`/author/${author?._id}`} className='hover:text-blue-400'>{author?.name}</Link>)}</span></p>
           <p>Published at: <span className=' font-semibold text-stone-900 dark:text-stone-400'>{publishedAt}</span></p>
           <p>Ratings: <span className=' font-semibold text-stone-900 dark:text-stone-400'>{ratings && Object.keys(ratings).length ? Object.keys(ratings).length  : 'not rated'}</span></p>
         </div>
