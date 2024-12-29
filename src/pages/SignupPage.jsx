@@ -36,7 +36,6 @@ function Signup() {
             
         })
 
-        // console.log('form data: ',userInputData)
     }
   return (
     <section className='w-dvw h-dvh bg-slate-900 text-slate-200 py-4 flex justify-center items-center '>

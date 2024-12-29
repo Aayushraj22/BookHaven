@@ -11,7 +11,6 @@ function DetailInfo() {
   const location = useLocation()
   const dispatch = useDispatch()
   const obj = location.state
-  // console.log('comes here with data: ', location.state)
   const [book, setBook] = useState({})
   const {authors, name, ratings, price, publishedAt, imgurl, description, _id} = book;
 
@@ -34,7 +33,6 @@ function DetailInfo() {
     }
   }
 
-  console.log('book: ',book)
 
   useEffect(() => {
     setBook(obj)

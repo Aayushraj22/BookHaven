@@ -6,7 +6,6 @@ function ErrorPage() {
     const {error} = useLocation().state
     const navigate = useNavigate()
 
-    console.log(error)
     
     const navigateToHome = () => {
         navigate('/')

@@ -42,7 +42,7 @@ async function fetchData(endpoint, navigate) {
             message: error.message,
         }
 
-        console.log('error occues: ',error.message)
+        // console.log('error occues: ',error.message)
         if(navigate) {
             navigate(`/errorPage`, {
                 state: {

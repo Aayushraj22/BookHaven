@@ -61,7 +61,6 @@ function PurchasePage() {
         // autherised user ID
         purchase.userId = readLocalStorage('uid')
 
-        // console.log('purchase obj: ',purchase)
         const endpoint = `books/${book?.id}/purchase`
         postData(endpoint, purchase, {withCredentials: true})
         .then(() => {
@@ -72,7 +71,6 @@ function PurchasePage() {
 
     }
 
-    // console.log('purchasing user: ',user)
 
     useEffect(() => {
         const userId = readLocalStorage('uid')
