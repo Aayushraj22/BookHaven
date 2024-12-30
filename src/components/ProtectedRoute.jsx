@@ -23,15 +23,19 @@ function ProtectedRoute({children}) {
     }, [])
 
     if(isLoading) {
-      return <>
-        Verifying User ...
-      </>
+      return <main className='dark:bg-black bg-slate-100 grid place-items-center h-full w-full text-slate-800 dark:text-slate-200'>
+        <p className='capitalize'>processing user ...</p>
+      </main>
     }
     
   return (
     <>
-      
-      {isAuthenticated ? <Suspense>{children}</Suspense> : <Navigate to='/login' />}
+      {isAuthenticated ? 
+        <Suspense>
+          {children}
+        </Suspense> : 
+        <Navigate to='/login' />
+      }
     </>
   )
 }

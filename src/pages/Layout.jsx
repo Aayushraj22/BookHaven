@@ -11,9 +11,11 @@ function Layout() {
   dispatch(fetchAndSetWish(uid))
   
   return (
-    <section>
+    <section className='flex flex-col h-dvh w-dvw overflow-y-auto'>
         <Navbar />
-        <Outlet />
+        <div className='flex-1'>
+          <Outlet />
+        </div>
     </section>
   )
 }

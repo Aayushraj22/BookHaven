@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import { fetchData, logout } from '../utility'
 import { useSlice } from '../redux/utility'
+import { BsSearch } from "react-icons/bs";
 
 function Navbar() {
   const navigate = useNavigate()
@@ -47,7 +48,7 @@ function Navbar() {
 
 
   return (
-    <nav className='h-20 bg-slate-200 dark:bg-slate-800 flex px-3'>
+    <nav className='h-20 bg-slate-200 dark:bg-slate-800 flex p-2 px-3 '>
         <Link to='/' className=' h-full w-32 flex items-center justify-center'>
             <Image src='logo.png' height='h-16' width='w-16' />
         </Link>
@@ -55,15 +56,10 @@ function Navbar() {
          
         <div className='h-full flex items-center flex-1 justify-end gap-1' >
           <div 
-            className='w-10 h-10 bg-slate-300 hover:bg-slate-400 dark:bg-slate-600 hover:dark-slate-500 rounded-full grid place-items-center cursor-pointer'
+            className='w-10 h-10 hover:bg-slate-300 dark:hover:bg-slate-600 grid place-items-center cursor-pointer rounded-lg text-lg dark:text-white'
             onClick={openSearchBox}
           >
-            <Image
-              src='/searchIcon.svg'
-              width={'w-6'}
-              height={'h-6'}
-              cursor={'cursor-pointer'}
-            />
+            <BsSearch />
           </div>
           <Button 
             clickMethod={() => handleNavigation('gallery')}

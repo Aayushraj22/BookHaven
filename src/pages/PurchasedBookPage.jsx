@@ -53,9 +53,9 @@ function PurchasedBookPage() {
     
   return (
     <>
-        <main className='dark:bg-black dark:text-white min-h-dvh'>
-            <header className='bg-orange-300 dark:bg-orange-900 flex items-center h-14 px-10 gap-1'>
-                <p className='flex-1 capitalize text-lg font-serif text-stone-800 dark:text-stone-400'>filter Books: </p>
+        <main className='dark:bg-black dark:text-white h-full'>
+            <header className='bg-orange-300 dark:bg-orange-800 flex items-center h-14 px-10 gap-1'>
+                <p className='flex-1 capitalize text-lg font-serif text-orange-800 dark:text-orange-300'>filter Books: </p>
                 <Button 
                     type={'button'} 
                     bg={filter.text === 'all' ? 'bg-orange-600': 'bg-slate-300 dark:bg-slate-800'} 
@@ -81,11 +81,8 @@ function PurchasedBookPage() {
                     purchased
                 </Button>
             </header>
-            
-            <div className='dark:bg-black dark:text-white'>
-                {filter?.books ? <Gallery books={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <div className='text-center mt-10'>Getting Data...</div>}
-                
-            </div>
+        
+            {filter?.books ? <Gallery books={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <div className='text-center mt-10 '>Getting Data...</div>} 
         </main>
     </>
   )

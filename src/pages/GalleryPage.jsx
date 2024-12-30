@@ -78,7 +78,7 @@ function GalleryPage() {
     }, [pageInfo.curPage])
 
   return (
-    <section className='dark:bg-black dark:text-white'>
+    <section className='dark:bg-black dark:text-white h-full'>
         <main>
             <Gallery books={books} isLoading={isLoading} items={skeletonToDisplay()}/>
         </main>
