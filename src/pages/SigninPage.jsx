@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { postData, setLocalStorage, toastMsg } from '../utility'
+import { FaFaceSmile } from "react-icons/fa6";
+import { TiArrowBackOutline } from "react-icons/ti";
 
 function Signin() {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
+    const location =  useLocation()
+
+    const previousPath = location.state?.from || undefined
+    console.log('previousPath: ',previousPath)
 
     const handleSigninUser = (e) => {
         e.preventDefault()
@@ -25,51 +31,71 @@ function Signin() {
         const endpoint = `users/login`
         postData(endpoint, userInputData, {withCredentials: true})
         .then(data => {
-            setLoading(false)
-
-            if(data){
+            if(data instanceof Object){
                 setLocalStorage('uid', data.uid)
                 toastMsg('Login ✅', 'success')
-                navigate(-1)
-            } else {
-                toastMsg('Login ❌', 'error')
+                navigate(previousPath ? `/` : -1)
             }
+        }).finally(() => {
+            setLoading(false)
         })
-
     }
+
   return (
-    <section className='w-dvw h-dvh bg-slate-900 text-slate-200 py-4 flex justify-center items-center '>
+    <section className='w-dvw h-dvh bg-slate-800 text-slate-200 py-4 flex flex-col justify-center items-center'>
         <form 
-            className='w-10/12 h-4/6 bg-slate-950 rounded border-r-2 border-r-slate-700 p-3'
+            className='w-3/4 md:w-2/5  drop-shadow-xl rounded border-t-2 border-t-slate-700 p-3 py-2 shadow-lg shadow-slate-600'
             onSubmit={handleSigninUser}
         >
-            
+            <div className='w-full'>
+                <Link 
+                    to='/'
+                    title='Back to Home'  
+                >
+                    <TiArrowBackOutline size={20}
+                    className=' w-8 h-8 text-slate-200 hover:text-red-500 transition-all'
+                    />
+                </Link>
+            </div>
+            <div className='w-full flex flex-col items-center p-2 py-3'>
+                <FaFaceSmile size={60}  className={`${loading && 'animate-bounce'}`}/>
                 <p className='text-2xl text-pretty font-semibold'>Sign In</p>
-                <div className='flex flex-col gap-3 items-center mt-4 p-3'>
-                    <Input name={'email'} type={'email'} />
-                    <Input name={'password'} type={'password'}/>
-                    <Button 
-                        bg='bg-blue-950' hover='hover:bg-blue-900'
-                        color={'text-slate-500'} 
-                        margin={'mt-3'}
-                    >
-                        {loading ? 'Signing...' : 'SignIn'}
-                    </Button>
-                </div>
-                <div className='flex justify-center items-center py-4 gap-3'>
-                    No Account ?
-                    <Button 
-                        type='button'
-                        bg='bg-stone-900' 
-                        hover={'hover:bg-stone-800'}  
-                        color={'text-stone-600'}
-                        width={'w-fit'}
-                        padding={'px-4'}
-                        clickMethod={() => {navigate('/register')}} 
-                    >
-                        Create an Account
-                    </Button>
-                </div>
+            </div>
+            <div className='flex flex-col gap-3 items-center mt-4 p-3'>
+                <Input 
+                    name={'email'} 
+                    type={'email'} 
+                    background='bg-slate-800' 
+                    color={'text-slate-300'} 
+                    border={'border border-slate-700'}
+                    required={true}
+                />
+                <Input 
+                    name={'password'} 
+                    type={'password'} 
+                    background='bg-slate-800' 
+                    color={'text-slate-300'} 
+                    border={'border border-slate-700'}
+                    required={true}
+                />
+                <Button 
+                    bg='bg-blue-900' 
+                    hover='hover:bg-blue-800'
+                    color={'text-slate-300'} 
+                    margin={'mt-3'}
+                >
+                    {loading ? 'Signing...' : 'SignIn'}
+                </Button>
+            </div>
+            <p className='text-center text-sm'>
+                Don't have an Account ?
+                <Link 
+                    to='/register'
+                    className='cursor-pointer text-sky-600 hover:text-sky-400 text-xs text-semibold transition-all'
+                >
+                    &ensp; Register Now
+                </Link>
+            </p>
         </form>
 
 

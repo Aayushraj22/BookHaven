@@ -6,6 +6,7 @@ import {Bounce, ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { store } from './redux/store.js'
 import { Provider } from 'react-redux'
+import NetworkConnectivityStatus from './components/NetworkConnectivityStatus.jsx'
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
@@ -24,7 +25,9 @@ createRoot(document.getElementById('root')).render(
         theme="light"
         transition={Bounce}
         />
-      <Routing />
+      <NetworkConnectivityStatus>
+        <Routing />
+      </NetworkConnectivityStatus>
     </Provider>
   </>
   // </StrictMode>,

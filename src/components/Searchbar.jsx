@@ -16,6 +16,10 @@ function Searchbar({closeSearchBox}) {
       setSearchResult([])
     }
 
+    if(searchResult.length) {
+      setSearchResult([])
+    }
+
     setSearchText(inputText)
   }
 
@@ -82,7 +86,7 @@ function Searchbar({closeSearchBox}) {
           title='Search Book' 
         />
 
-        <section className={`p-4 w-11/12 bg-stone-400 dark:bg-stone-900 rounded-md flex flex-col gap-1 overflow-y-auto h-full flex-1  mx-auto text-stone-900 dark:text-stone-400 ${isloading ? 'animate-pulse': ''}`}>
+        <section className={`p-4 w-11/12  rounded-md flex flex-col gap-1 overflow-y-auto h-full flex-1  mx-auto ${isloading ? 'animate-pulse': ''} ${searchResult.length ? 'bg-stone-400 dark:bg-stone-900 text-stone-900 dark:text-stone-400' : 'bg-transparent'}`}>
           {isloading && (
             <p className='w-full flex-1 grid place-items-center'>
               Searching ...

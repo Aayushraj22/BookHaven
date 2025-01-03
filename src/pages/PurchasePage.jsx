@@ -9,14 +9,14 @@ function PurchasePage() {
     const {state} = useLocation()
     const [book, setBook] = useState(state?.book)
     const [purchaseWay, setPurchaseWay] = useState(state?.pType)
-    const [showWarning, setShowWarning] = useState('')
     const [user, setUser] = useState({})
     const [qty, setQty] = useState(state?.book?.qty || 1)
 
     // const isLoggedIn = isUserAuthentic()
 
-    const handleChangePurchaseWay = () => {
-        setPurchaseWay(prev => prev === 'rent' ? 'buy' : 'rent')
+    const handleChangePurchaseWay = (e) => {
+        const value = e.target.value
+        setPurchaseWay(value)
     }
 
     // qty will increase by 1 but if parament passed tty decreases by 1
@@ -45,18 +45,9 @@ function PurchasePage() {
         // purchase.bookName = book.name;
 
         // including general details
-        purchase.price = book?.price*qty;
-        purchase.paid = Number(formData?.paid);
+        purchase.price = book?.price * qty;
         purchase.pType = purchaseWay;
         purchase.qty = qty
-
-        if(purchase.paid !== purchase.price) { 
-            setShowWarning('Pay Right Amount')
-            setTimeout(() => {
-                setShowWarning('')
-            }, 2000);
-            return;
-        }
 
         // autherised user ID
         purchase.userId = readLocalStorage('uid')
@@ -86,61 +77,60 @@ function PurchasePage() {
     }, [])
     
   return (
-    <section className='bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 min-h-dvh p-2 lg:p-7'>
-        <header className='p-3 w-9/12 mx-auto rounded bg-blue-200 flex flex-col items-center text-slate-800'> 
-            <p className='capitalize font-serif font-semibold text-base md:text-lg'>{book?.name}</p>
-            <p className='capitalize font-semibold text-xs md:text-sm'>{book?.author}</p>
-            <div className='text-sm w-full mt-2'>
-                <span className='font-semibold text-sm md:text-sm'>{qty} Book </span>
-                <Button 
-                    width='w-6' 
-                    height='h-6' 
-                    bg='bg-slate-100 hover:bg-slate-900' 
-                    color='text-slate-900 hover:text-sky-200' 
-                    margin='ml-1' 
-                    text='font-bold text-xs' 
-                    clickMethod={() => handleChangeQuantity()}
-                >
-                    +
-                </Button>
-                <Button 
-                    width='w-6' 
-                    height='h-6' 
-                    bg='bg-slate-100 hover:bg-slate-900' 
-                    color='text-slate-900 hover:text-sky-200' 
-                    margin='ml-1' 
-                    text='font-bold text-xs' 
-                    clickMethod={() => handleChangeQuantity(true)}
-                >
-                    -
-                </Button>
-            </div>
+    <section className='bg-gradient-to-b from-cyan-700 via-sky-700/80 to-blue-600/90 min-h-dvh p-4 lg:p-7'>
+        <header className='p-3 w-3/4 lg:w-3/5 mx-auto rounded bg-white/40 text-center text-slate-700 shadow-md shadow-white capitalize font-semibold text-lg md:text-2xl font-serif '> 
+            {book?.name}
         </header>
 
-        <div className='mx-auto w-9/12 mt-4 p-2 bg-pink-300 rounded-md text-xs md:text-sm '>
-            <Button 
-                text='capitalise' 
-                color='text-pink-200 hover"text-pink-300' 
-                bg='bg-pink-700 hover:bg-pink-600'
-                margin='mr-2' 
-                clickMethod={handleChangePurchaseWay}
-            >
-                {purchaseWay === 'rent' ? 'rent' : 'buy'} book
-            </Button>
-            <span>Total <span className='font-semibold'>$ {book?.price*qty}</span></span>
-        </div>
-
         <form 
-            className='w-9/12 mx-auto flex flex-col gap-4 mt-7'
+            className='w-3/4 lg:w-3/5 mx-auto flex flex-col gap-4 mt-7 p-5 pt-7 rounded-md bg-white/40 shadow-md shadow-white'
             onSubmit={handleSubmitForm}
         >
             <Input name='name' border='border' pValue={user?.name} required />
             <Input name='email' type='email' pValue={user?.email} required />
             <Input name='address' />
             <Input name='phone no' type='tel' pValue={user?.phoneNo} required />
-            <Input name='paid' type='Number' required />
+            <Input name='paid' type='Number' required pValue={book?.price*qty} />
+            <div className='flex items-center'>
+            <div className='text-gray-800 text-sm flex-1'>
+                <span className='font-semibold block mb-1'>Purchase Type</span>
+                <label className='flex items-center gap-1 w-fit'>
+                    <input type='checkbox' name='pType' value='buy' checked={purchaseWay === 'buy'} onClick={handleChangePurchaseWay}  /> 
+                    <span className='text-xs'>Buying</span>  
+                </label>
+                
+                <label className='flex items-center gap-1 w-fit '>
+                    <input type='checkbox' name='pType' value='rent' checked={purchaseWay === 'rent'} onClick={handleChangePurchaseWay} /> 
+                    <span className='text-xs'>Renting</span>  
+                </label>
+            </div>
 
-            {showWarning ? <p className='bg-red-300 text-red-600 font-semibold font-mono capitalize text-xs p-2 rounded border-b-2 border-b-red-800'>{showWarning}</p> : ''}
+            <div className='text-sm flex-1'>
+                <Button 
+                    width='w-6' 
+                    height='h-6' 
+                    bg='bg-slate-100 hover:bg-slate-900' 
+                    color='text-slate-900 hover:text-sky-200' 
+                    text='font-bold text-sm' 
+                    type={'button'}
+                    clickMethod={() => handleChangeQuantity()}
+                >
+                    +
+                </Button>
+                <span className='text-xs mx-2'>Qty : {qty}</span>
+                <Button 
+                    width='w-6' 
+                    height='h-6' 
+                    bg='bg-slate-100 hover:bg-slate-900' 
+                    color='text-slate-900 hover:text-sky-200'
+                    text='font-bold text-sm' 
+                    type={'button'}
+                    clickMethod={() => handleChangeQuantity(true)}
+                >
+                    -
+                </Button>
+            </div>
+            </div>
 
             <div className='flex gap-2'>
                 <Button 

@@ -63,7 +63,15 @@ async function postData(endpoint, data, options) {
         const response = options ? await axios.post(url, data, options) : await axios.post(url, data)
         return response.data
     } catch (error) {
-        // console.log(`posting Data error: `,error.status)
+        if(error.message === 'Network Error') {
+            toastMsg(errMsg, 'error')
+            return undefined;
+        }
+
+        const response = await error.response
+        // console.log('error: ',error)
+        // console.log(`${response.data}`,error.status)
+        toastMsg(`${response.data}`, 'error')
         return undefined
     }
 }
@@ -107,6 +115,25 @@ function toastMsg(msg, type){
     }
 }
 
+const handleInternetOnline = () => {
+    toastMsg('Reconnected. Enjoy browsing!','success')
+    console.log('Reconnected. Enjoy browsing!')
+}
+
+const handleInternetOffline = () => {
+    toastMsg('Internet connection lost. Please reconnect.', 'error')
+}
+
+function listenerToCheckInternetConnection(type) {
+    if(type == 'add') {
+        window.addEventListener('online',handleInternetOnline)
+        window.addEventListener('offline',handleInternetOffline)
+    } else {
+        window.removeEventListener('online', handleInternetOnline)
+        window.removeEventListener('offline', handleInternetOffline)
+    }
+}
+
 
 export { 
     isUserAuthentic, 
@@ -118,5 +145,5 @@ export {
     readLocalStorage,
     removeKeyFromLocalStorage,
     toastMsg,
-
+    listenerToCheckInternetConnection,
 }
