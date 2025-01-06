@@ -21,8 +21,8 @@ function Layout() {
   useEffect(() => {
     // this will set the redux store (auth and wish) state if below condition satisfied
     console.log(`reading LS: ${readLocalStorage('uid')}`)
-    console.log(`reading cookies, uid: ${Cookies.get('uid')}, token: ${Cookies.get('token')}`)
-    if(readLocalStorage('uid') && Cookies.get('uid') && Cookies.get('token')) {
+    console.log(`reading cookies, uid: ${Cookies.get('uid', { path: '/', sameSite: 'None', secure: true })}, token: ${Cookies.get('token', { path: '/', sameSite: 'None', secure: true })}`)
+    if(readLocalStorage('uid') && Cookies.get('uid', { path: '/', sameSite: 'None', secure: true }) && Cookies.get('token', { path: '/', sameSite: 'None', secure: true })) {
       console.log('deploy not set cookie')
       dispatch(userLoggedInStatus({isLoggedIn: true}))
       dispatch(fetchAndSetWish())

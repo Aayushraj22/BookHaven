@@ -6,7 +6,7 @@ import Fallback from '../utility/components/Fallback';
 function ProtectedRoute({children}) {
     const {status} = useSelector(state => state.auth)
     const [isSyncWithReduxStore, setIsSyncWithReduxStore] = useState(0)
-    console.log('status: ',status)
+    // console.log('status: ',status)
 
     useEffect(() => {
       // artifically delaying for 1s so that, if redux store have data that will get sync
