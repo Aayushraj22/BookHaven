@@ -20,15 +20,10 @@ function Layout() {
   
   useEffect(() => {
     // this will set the redux store (auth and wish) state if below condition satisfied
-    console.log(`reading LS: ${readLocalStorage('uid')}`)
-    console.log(`reading cookies, uid: ${Cookies.get('uid')}, token: ${Cookies.get('token')}`)
     if(readLocalStorage('uid') && Cookies.get('uid') && Cookies.get('token')) {
-      console.log('deploy not set cookie')
       dispatch(userLoggedInStatus({isLoggedIn: true}))
       dispatch(fetchAndSetWish())
     }
-
-    console.log('outer is fine')
 
     // add scroll event listner
     const scrollHandler = () => {
