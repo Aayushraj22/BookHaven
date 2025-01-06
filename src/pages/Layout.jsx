@@ -6,6 +6,7 @@ import { userLoggedInStatus } from '../redux/slices/authSlice'
 import { fetchAndSetWish } from '../redux/slices/WishlistSlice'
 import { readLocalStorage } from '../utility'
 import Cookies from 'js-cookie'
+import { TbNavigationTop } from "react-icons/tb";
 
 
 function Layout() {
@@ -20,9 +21,12 @@ function Layout() {
   useEffect(() => {
     // this will set the redux store (auth and wish) state if below condition satisfied
     if(readLocalStorage('uid') && Cookies.get('uid') && Cookies.get('token')) {
-        dispatch(userLoggedInStatus({isLoggedIn: true}))
-        dispatch(fetchAndSetWish())
+      console.log('deploy not set cookie')
+      dispatch(userLoggedInStatus({isLoggedIn: true}))
+      dispatch(fetchAndSetWish())
     }
+
+    console.log('outer is fine')
 
     // add scroll event listner
     const scrollHandler = () => {
@@ -51,13 +55,13 @@ function Layout() {
       <div className='flex-1'>
         <Outlet />
       </div>
-      <h1 
+      <div 
         ref={backToTopRef} 
-        className='h-10 w-10 rounded-full bg-slate-300/60 hover:bg-slate-300/100 dark:hover:bg-slate-900/100 cursor-pointer z-20 absolute place-items-center hidden text-lg bottom-[10px] right-[10px] select-none dark:bg-slate-900/60'
+        className='h-10 w-10 rounded-full bg-slate-300/60 hover:bg-slate-300/100 dark:bg-slate-900/60 dark:hover:bg-slate-900/100 dark:text-white cursor-pointer z-20 absolute place-items-center hidden text-lg bottom-[10px] right-[10px] select-none  '
         onClick={handleScrollToTop}
       >
-        🔝
-      </h1>
+        <TbNavigationTop />
+      </div>
     </section>
   )
 }
