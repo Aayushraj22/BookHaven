@@ -14,9 +14,7 @@ function Signup() {
         e.preventDefault()
 
         // confirm user is connected to internet
-        console.log('online status: ',navigator.onLine)
         if(!navigator.onLine){
-            console.log('commes')
             toastMsg('No internet connection. Check your network settings.', 'error')
             return
         }
@@ -36,7 +34,7 @@ function Signup() {
         postData(endpoint, userInputData)
         .then((data) => {
             if(data instanceof Object) {
-                toastMsg('Registration ✅')
+                toastMsg('User Registered Successfully')
                 navigate('/login') 
             }
         })

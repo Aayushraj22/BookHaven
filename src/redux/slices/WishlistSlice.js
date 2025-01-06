@@ -10,9 +10,11 @@ export const fetchAndSetWish = createAsyncThunk('wishSlice/fetchAndSetWish', asy
     const endpoint = `wish`
     try {
         const response = await fetchData(endpoint)
-        return response
+        if(response)
+            return response
+        throw new Error()
     } catch (error) {
-        return null
+        throw new Error()
     }
 
 })
@@ -52,7 +54,7 @@ const wishSlice = createSlice({
 
         builder
         .addCase(addWish.fulfilled, (state,action) => {
-            console.log('action: ',action.payload)
+            // console.log('action: ',action.payload)
             if(action.payload.msg === 'book added into your wish') {
                 state.wishlist.push(action.payload.book)
                 state.total ++
@@ -61,7 +63,7 @@ const wishSlice = createSlice({
 
         builder 
         .addCase(deleteWish.fulfilled, (state,action )=> {
-            if(action.payload.msg = 'deleted book from wish') {
+            if(action.payload.msg === 'deleted book from wish') {
                 state.wishlist = state.wishlist.filter(item => item._id !== action.payload.id)
                 state.total --
             }

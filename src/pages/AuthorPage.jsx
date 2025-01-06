@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import Image from '../components/Image'
 import Gallery from '../components/Gallery'
 import TextKV from '../utility/components/TextKV'
+import Fallback from '../utility/components/Fallback'
 
 function AuthorPage() {
   // get id from the route as a query parameter
@@ -27,9 +28,7 @@ function AuthorPage() {
   }, [id])
 
   if(isloading){
-    return <div className='w-full h-full grid place-items-center animate-pulse dark:bg-black dark:text-stone-300'>
-      Getting Data...
-    </div>
+    return <Fallback loader={'colorRing'} />
   }
 
     

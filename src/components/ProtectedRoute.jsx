@@ -1,40 +1,33 @@
-import React, { Suspense, useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import { fetchData } from '../utility';
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import Fallback from '../utility/components/Fallback';
 
 function ProtectedRoute({children}) {
-    // const isAuthenticated = isUserAuthentic()
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
-    
+    const {status} = useSelector(state => state.auth)
+    const [isSyncWithReduxStore, setIsSyncWithReduxStore] = useState(0)
+    console.log('status: ',status)
+
     useEffect(() => {
-      const endpoint = `users/auth-status`
-
-      fetchData(endpoint)
-      .then(data => {
-        if(data.status === 'authorized'){
-          setIsAuthenticated(true)
-        }
-
-        setIsLoading(false)
-      })
-
-      
+      // artifically delaying for 1s so that, if redux store have data that will get sync
+      if(!status) {
+        setTimeout(() => {
+          setIsSyncWithReduxStore(1)
+        }, 500);
+      }
     }, [])
-
-    if(isLoading) {
-      return <main className='dark:bg-black bg-slate-100 grid place-items-center h-full w-full text-slate-800 dark:text-slate-200'>
-        <p className='capitalize'>processing user ...</p>
-      </main>
+    
+    
+    if(!status && isSyncWithReduxStore === 0){
+      return <Fallback loader={'watch'} />
     }
+    
     
   return (
     <>
-      {isAuthenticated ? 
-        <Suspense>
-          {children}
-        </Suspense> : 
-        <Navigate to='/login' />
+      {status ? 
+          <>{children}</> : 
+        <Navigate to={'/login'} />
       }
     </>
   )

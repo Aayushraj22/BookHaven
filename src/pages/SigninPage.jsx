@@ -12,7 +12,6 @@ function Signin() {
     const location =  useLocation()
 
     const previousPath = location.state?.from || undefined
-    console.log('previousPath: ',previousPath)
 
     const handleSigninUser = (e) => {
         e.preventDefault()
@@ -33,7 +32,7 @@ function Signin() {
         .then(data => {
             if(data instanceof Object){
                 setLocalStorage('uid', data.uid)
-                toastMsg('Login ✅', 'success')
+                toastMsg('User Signed-In', 'success')
                 navigate(previousPath ? `/` : -1)
             }
         }).finally(() => {

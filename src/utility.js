@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { resetWishlist } from './redux/slices/WishlistSlice'
+import { userLoggedInStatus } from './redux/slices/authSlice'
 
 function isUserAuthentic () {
     return localStorage.getItem('uid') 
@@ -14,17 +15,20 @@ const logout = (navigate, dispatch) => {
     .then((data) => {
         if(data) {
             // these delete it from the browser
-            Cookies.remove('token')
-            Cookies.remove('uid')
+            Cookies.remove('token', { path: '/', sameSite: 'None', secure: true })
+            Cookies.remove('uid', { path: '/', sameSite: 'None', secure: true })
             removeKeyFromLocalStorage('uid')
 
             // remove wish state 
             dispatch(resetWishlist())
+            dispatch(userLoggedInStatus({
+                isLoggedIn: false
+            }))
             
-            toastMsg('Sign Out ✅', 'success')
+            toastMsg('User Logout', 'success')
             navigate('/')
         } else {
-            toastMsg('Sign Out ❌', 'error')
+            toastMsg('User Logout Failed ❌', 'error')
         }
     })
 }
@@ -37,18 +41,20 @@ async function fetchData(endpoint, navigate) {
         const response = await axios.get(url, {withCredentials: true})
         return response.data
     } catch (error) {
-        const err = {
-            code: error?.code,
-            message: error.message,
-        }
-
-        // console.log('error occues: ',error.message)
-        if(navigate) {
+        const {data} = await error.response
+        
+        if(data.message === 'Network Error' && navigate) {
+            toastMsg(data.message, 'error')
             navigate(`/errorPage`, {
                 state: {
                     error: err
                 }
             })
+            return undefined;
+        }
+        
+        if(data.status === 401 && navigate) {
+            navigate('/login')
         }
 
         return undefined
@@ -64,14 +70,14 @@ async function postData(endpoint, data, options) {
         return response.data
     } catch (error) {
         if(error.message === 'Network Error') {
-            toastMsg(errMsg, 'error')
+            toastMsg(error.message, 'error')
             return undefined;
         }
 
-        const response = await error.response
+        const {data} = await error.response
         // console.log('error: ',error)
         // console.log(`${response.data}`,error.status)
-        toastMsg(`${response.data}`, 'error')
+        toastMsg(`${data.message}`, 'error')
         return undefined
     }
 }
@@ -135,6 +141,7 @@ function listenerToCheckInternetConnection(type) {
 }
 
 
+
 export { 
     isUserAuthentic, 
     logout, 
@@ -146,4 +153,5 @@ export {
     removeKeyFromLocalStorage,
     toastMsg,
     listenerToCheckInternetConnection,
+    
 }

@@ -14,19 +14,20 @@ import ErrorPage from "./pages/ErrorPage";
 import AddBookPage from "./pages/AddBookPage";
 import { lazy, Suspense } from "react";
 import AuthorPage from "./pages/AuthorPage";
+import Fallback from "./utility/components/Fallback";
+import WishlistPage from "./pages/WishlistPage";
+import PurchasedBookPage from "./pages/PurchasedBookPage";
 
 const Signin = lazy(() => import('./pages/SigninPage'))
 const Signup = lazy(() => import('./pages/SignupPage'))
 const PurchasePage = lazy(() => import('./pages/PurchasePage'))
-const PurchasedBookPage = lazy(() => import('./pages/PurchasedBookPage'))
-const WishlistPage = lazy(() => import('./pages/WishlistPage'))
 
 // Configure nested routes with JSX
 const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-      <Route path="/login" element={<Suspense><Signin /></Suspense>} />
-      <Route path="/register" element={<Suspense><Signup /></Suspense>} />
+      <Route path="/login" element={<Suspense fallback={<Fallback loader={'watch'} />}><Signin /></Suspense>} />
+      <Route path="/register" element={<Suspense fallback={<Fallback loader={'watch'} />}><Signup /></Suspense>} />
       <Route path='/errorPage' element={<ErrorPage />} />
       <Route path="/addBook" element={<AddBookPage />} />
       
@@ -44,7 +45,12 @@ const router = createBrowserRouter(
       </Route>
       
       {/*  ProtectedRoute */}
-      <Route path="/purchase" element={<ProtectedRoute ><PurchasePage /></ProtectedRoute>} />
+      <Route path="/purchase" element={
+        <ProtectedRoute >
+          <Suspense fallback={<Fallback loader={'watch'} />}>
+            <PurchasePage />
+          </Suspense>
+        </ProtectedRoute>} />
       </>
     )
   );

@@ -81,7 +81,7 @@ function Input({
         />
         <span 
             ref={labelRef}
-            className={`inline-block absolute inset-y-2 left-2 text-lg font-serif w-fit py-1 px-2 text-gray-500 capitalize rounded ${background ?? 'bg-slate-50'}`}
+            className={`inline-block absolute inset-y-2 left-2 text-sm font-serif w-fit h-fit py-1 px-2 text-gray-500 capitalize rounded ${background ?? 'bg-slate-50'}`}
             onClick={() => {
                 inputRef.current.focus()
             }}

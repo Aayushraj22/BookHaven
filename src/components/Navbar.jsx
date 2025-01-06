@@ -1,18 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Image from './Image'
 import Searchbar from './Searchbar'
 import ToggleButton from './ToggleButton'
 import { Link, useNavigate } from 'react-router-dom'
 import Button from './Button'
-import { fetchData, logout } from '../utility'
+import { logout } from '../utility'
 import { useSlice } from '../redux/utility'
 import { BsSearch } from "react-icons/bs";
+import { useSelector } from 'react-redux'
 
 function Navbar() {
   const navigate = useNavigate()
   const settingRef = useRef(null)
   
-  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const {status} = useSelector(state => state.auth)
   const [showSearchBox, setShowSearchBox] = useState(false)
   const [ slice, dispatch ] = useSlice('wish')
   const {total} = slice
@@ -29,28 +30,13 @@ function Navbar() {
   const openSearchBox = () => {
     setShowSearchBox(true)
   }
-
-  useEffect(() => {
-
-    const endpoint = `users/auth-status`
-    fetchData(endpoint)
-      .then(data => {
-        if(data.status === 'authorized'){
-          setIsAuthenticated(true)
-        }
-      })
-
-    return () => {
-      console.log('navbar unmounting...')
-    }
-  }, [])
   
 
 
   return (
-    <nav className='h-20 bg-slate-200 dark:bg-slate-800 flex p-2 px-3 '>
-        <Link to='/' className=' h-full w-32 flex items-center justify-center'>
-            <Image src='logo.png' height='h-16' width='w-16' />
+    <nav className='w-full bg-slate-200 dark:bg-slate-800 flex p-2 px-3 '>
+        <Link to='/' className=' h-16 w-32 grid place-items-center '>
+            <Image src='logo.png' height='h-12' width='w-12' />
         </Link>
         {showSearchBox && <Searchbar closeSearchBox={() => setShowSearchBox(false)} />}
          
@@ -67,21 +53,21 @@ function Navbar() {
             width='w-16'
             bg='bg-transparent'
             color='dark:text-slate-50'
-            hover='hover:bg-slate-400 hover:dark:bg-slate-950'
+            hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-slate-50'
             text='text-sm'
             display={'hidden md:inline-block'}
           >
             Gallery
           </Button>
 
-          {isAuthenticated ? '' : (
+          {status ? '' : (
             <div className='h-full hidden md:flex items-center'>
               <Button 
                 clickMethod={() => handleNavigation('login')}
                 height='h-12'
                 width='w-16'
-                bg='bg-blue-400 dark:bg-blue-600'
-                color='dark:text-slate-50'
+                bg='bg-blue-500 dark:bg-blue-600'
+                color='text-slate-50'
                 hover='hover:bg-blue-500 dark:hover:bg-blue-400'
                 text='text-sm'
                 margin='mr-2'
@@ -111,20 +97,20 @@ function Navbar() {
                 width='w-full'
                 bg='bg-transparent'
                 color='dark:text-slate-50'
-                hover='hover:bg-slate-400 hover:dark:bg-slate-950'
+                hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
                 display={'md:hidden'}
               >
                 gallery
               </Button>
               {
-                isAuthenticated ? (<>
+                status ? (<>
                 <Button 
                   clickMethod={() => handleNavigation('myBooks')}
                   height='h-8'
                   width='w-full'
                   bg='bg-transparent'
                   color='dark:text-slate-50'
-                  hover='hover:bg-slate-400 hover:dark:bg-slate-950'
+                  hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
                 >
                   my books
                 </Button>
@@ -134,12 +120,12 @@ function Navbar() {
                   width='w-full'
                   bg='bg-transparent'
                   color='dark:text-slate-50'
-                  hover='hover:bg-slate-400 hover:dark:bg-slate-950'
+                  hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
                 >
                   {total ? total : ''} wishlist
                 </Button>
                 <Button 
-                  clickMethod={isAuthenticated && (() => logout(navigate, dispatch))}
+                  clickMethod={status && (() => logout(navigate, dispatch))}
                   height='h-8'
                   width='w-full'
                   bg={'bg-red-500 dark:bg-red-700'}
@@ -153,7 +139,7 @@ function Navbar() {
                   height='h-8'
                   width='w-full'
                   bg='bg-blue-400 dark:bg-blue-600'
-                  color='dark:text-slate-50'
+                  color='text-slate-50'
                   hover='hover:bg-blue-500 dark:hover:bg-blue-400'
                   text='text-xs'
                   display={'md:hidden'}
