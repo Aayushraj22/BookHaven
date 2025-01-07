@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Pagination({total, clickMethod, curPage}) {
+function Pagination({total, clickMethod, curPage, totalItems}) {
 
   const generateArray = () => {
     let arr =  [...Array(total >= 5 ? 5 : total)]
@@ -29,32 +29,34 @@ function Pagination({total, clickMethod, curPage}) {
   }
 
   return (
-    <div className='w-fit h-20 flex items-center justify-center mx-auto'>
-        {total > 5 && curPage > 1 ? 
-          <button 
-            className='w-8 h-7 border grid place-items-center rounded cursor-pointer dark:border-gray-800 ' 
-            onClick={clickMethod}
-          >
-            &lt;
-          </button> : ''
-        }
+    <section className=' h-24 w-full flex flex-col items-center justify-center'>
+      <div className='w-fit h-14 flex items-center justify-center mx-auto'>
+          {total > 5 && curPage > 1 ? 
+            <button 
+              className='w-10 h-10 border grid place-items-center rounded cursor-pointer dark:border-gray-800 ' 
+              onClick={clickMethod}
+            >
+              &lt;
+            </button> : ''
+          }
 
-        {total ? generateArray().map((val) => <button
-            key={val} 
-            className={` border grid place-items-center rounded cursor-pointer dark:border-gray-800 transition-all  ${Number(curPage) === val ? 'bg-orange-600 text-white w-10 h-10': 'w-9 h-8'}`}
-            onClick={clickMethod} 
-            >{val}</button>): ''}
+          {total ? generateArray().map((val) => <button
+              key={val} 
+              className={`text-xs text-semibold border grid place-items-center rounded cursor-pointer dark:border-gray-800 w-10 h-10 transition-all  ${Number(curPage) === val ? 'bg-orange-600 text-white ': ''}`}
+              onClick={clickMethod} 
+              >{val}</button>): ''}
 
-        {total > 5 && curPage < total ? 
-          <button 
-            className='w-8 h-7 border grid place-items-center rounded cursor-pointer dark:border-gray-800 '
-            onClick={clickMethod} 
-          >
-            &gt;
-          </button> : ''
-        }
-        
-    </div>
+          {total > 5 && curPage < total ? 
+            <button 
+              className='w-10 h-10 border grid place-items-center rounded cursor-pointer dark:border-gray-800 '
+              onClick={clickMethod} 
+            >
+              &gt;
+            </button> : ''
+          } 
+      </div>
+      <p className='text-xs'>showing {(curPage-1)*10 + 1} to {totalItems - (curPage-1)*10 < 10 ? totalItems - (curPage-1)*10 + (curPage-1)*10  : (curPage-1)*10 + 10} of {totalItems} results</p>
+    </section>
   )
 }
 

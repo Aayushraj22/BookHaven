@@ -17,7 +17,7 @@ function AuthorPage() {
   useEffect(() => {
     setIsloading(true)
 
-    const endpoint = `author?id=${id}`
+    const endpoint = `author/${id}`
     fetchData(endpoint).then(data => {
       if(data) {
         setAuthorInfo(data)
@@ -48,7 +48,7 @@ function AuthorPage() {
           <TextKV name={'available books'} value={authorInfo?.booksWritten?.length} />
         </div>
       </header>
-      <Gallery books={authorInfo?.booksWritten} title={`available books written by ${authorInfo?.name}`} />
+      <Gallery data={authorInfo?.booksWritten} title={`available books written by ${authorInfo?.name}`} />
     </main>
   )
 }

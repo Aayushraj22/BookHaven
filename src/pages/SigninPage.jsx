@@ -33,7 +33,7 @@ function Signin() {
             if(data instanceof Object){
                 setLocalStorage('uid', data.uid)
                 toastMsg('User Signed-In', 'success')
-                navigate(previousPath ? `/` : -1)
+                navigate(previousPath === 'register' ? `/` : -1)
             }
         }).finally(() => {
             setLoading(false)

@@ -103,7 +103,7 @@ function PurchasedBookPage() {
                 </div>
             </header>
         
-            {filter?.books ? <Gallery books={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <Fallback loader={'colorRing'} />} 
+            {filter?.books ? <Gallery data={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <Fallback loader={'colorRing'} />} 
         </main>
     </>
   )
