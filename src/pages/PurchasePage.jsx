@@ -92,7 +92,7 @@ function PurchasePage() {
             <Input name='phone no' type='tel' pValue={user?.phoneNo} required />
             <Input name='paid' type='Number' required pValue={book?.price*qty} />
             <div className='flex items-center'>
-            <div className='text-gray-800 text-sm flex-1'>
+            <div className='text-gray-800 text-sm flex-1 select-none'>
                 <span className='font-semibold block mb-1'>Purchase Type</span>
                 <label className='flex items-center gap-1 w-fit'>
                     <input type='checkbox' name='pType' value='buy' checked={purchaseWay === 'buy'} onClick={handleChangePurchaseWay}  /> 
@@ -105,30 +105,33 @@ function PurchasePage() {
                 </label>
             </div>
 
-            <div className='text-sm flex-1'>
-                <Button 
-                    width='w-6' 
-                    height='h-6' 
-                    bg='bg-slate-100 hover:bg-slate-900' 
-                    color='text-slate-900 hover:text-sky-200' 
-                    text='font-bold text-sm' 
-                    type={'button'}
-                    clickMethod={() => handleChangeQuantity()}
-                >
-                    +
-                </Button>
-                <span className='text-xs mx-2'>Qty : {qty}</span>
-                <Button 
-                    width='w-6' 
-                    height='h-6' 
-                    bg='bg-slate-100 hover:bg-slate-900' 
-                    color='text-slate-900 hover:text-sky-200'
-                    text='font-bold text-sm' 
-                    type={'button'}
-                    clickMethod={() => handleChangeQuantity(true)}
-                >
-                    -
-                </Button>
+            <div className='text-sm flex-1 flex flex-col select-none'>
+                <span className='font-semibold block mb-1'>Quantity</span>
+                <div className='flex gap-2 items-center'>
+                    <Button 
+                        width='w-6' 
+                        height='h-6' 
+                        bg='bg-slate-200 hover:bg-slate-700' 
+                        color='hover:text-slate-200' 
+                        text='font-bold text-sm' 
+                        type={'button'}
+                        clickMethod={() => handleChangeQuantity()}
+                        >
+                        +
+                    </Button>
+                    <span className='text-xs font-semibold w-5 text-center'>{qty}</span>
+                    {qty > 1 && (<Button 
+                        width='w-6' 
+                        height='h-6' 
+                        bg='bg-slate-200 hover:bg-red-700' 
+                        color='hover:text-slate-200'
+                        text='font-bold text-sm' 
+                        type={'button'}
+                        clickMethod={() => handleChangeQuantity(true)}
+                        >
+                        -
+                    </Button>)}
+                </div>
             </div>
             </div>
 

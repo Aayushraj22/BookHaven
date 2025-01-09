@@ -38,6 +38,9 @@ function GalleryPage() {
             ...prev,
             curPage: pageNo,
         }))
+
+        // scroll to top on change page
+        document.getElementById('afterRoot').scrollTop = 0
     }
 
     const skeletonToDisplay = () => {

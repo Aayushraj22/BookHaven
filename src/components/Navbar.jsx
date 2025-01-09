@@ -47,28 +47,28 @@ function Navbar() {
           >
             <BsSearch />
           </div>
+          <ToggleButton />
           <Button 
             clickMethod={() => handleNavigation('gallery')}
-            height='h-12'
+            height='h-10'
             width='w-16'
             bg='bg-transparent'
             color='dark:text-slate-50'
-            hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-slate-50'
+            hover='hover:bg-slate-300 hover:dark:bg-slate-600'
             text='text-sm'
             display={'hidden md:inline-block'}
           >
             Gallery
           </Button>
-
           {status ? '' : (
             <div className='h-full hidden md:flex items-center'>
               <Button 
                 clickMethod={() => handleNavigation('login')}
-                height='h-12'
+                height='h-10'
                 width='w-16'
-                bg='bg-blue-500 dark:bg-blue-600'
+                bg='bg-blue-500 dark:bg-blue-700'
                 color='text-slate-50'
-                hover='hover:bg-blue-500 dark:hover:bg-blue-400'
+                hover='hover:bg-blue-600 dark:hover:bg-blue-600'
                 text='text-sm'
                 margin='mr-2'
                 >
@@ -77,7 +77,7 @@ function Navbar() {
             </div>
           )}
       
-          <div className='grid place-content-center'>
+          <div className={`place-content-center ${status ? 'grid' : 'md:hidden'}`}>
             <Image 
               src='setting.png' 
               height='h-10' 
@@ -90,7 +90,6 @@ function Navbar() {
               className='fixed hidden top-20 right-0 p-1 bg-slate-200 dark:bg-slate-800 rounded z-10 w-36 ' 
               ref={settingRef}
             >
-              <ToggleButton />
               <Button 
                 clickMethod={() => handleNavigation('gallery')}
                 height='h-8'
