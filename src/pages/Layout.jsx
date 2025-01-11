@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { userLoggedInStatus } from '../redux/slices/authSlice'
 import { fetchAndSetWish } from '../redux/slices/WishlistSlice'
-import { readLocalStorage } from '../utility'
+import { fetchData, readLocalStorage, setLocalStorage } from '../utility'
 import Cookies from 'js-cookie'
 import { TbNavigationTop } from "react-icons/tb";
 
@@ -19,16 +19,16 @@ function Layout() {
   }
   
   useEffect(() => {
-    // this will set the redux store (auth and wish) state if below condition satisfied
-    console.log(`reading LS: ${readLocalStorage('uid')}`)
-    console.log(`reading cookies, uid: ${Cookies.get('uid', { path: '/', sameSite: 'None', secure: true })}, token: ${Cookies.get('token', { path: '/', sameSite: 'None', secure: true })}`)
-    if(readLocalStorage('uid') && Cookies.get('uid', { path: '/', sameSite: 'None', secure: true }) && Cookies.get('token', { path: '/', sameSite: 'None', secure: true })) {
-      console.log('deploy not set cookie')
-      dispatch(userLoggedInStatus({isLoggedIn: true}))
-      dispatch(fetchAndSetWish())
-    }
 
-    console.log('outer is fine')
+    // get the user authentication status by an api call
+    const endpoint = `users/auth-status`
+    fetchData(endpoint).then(data => {
+      if(data.status === 200){
+        dispatch(userLoggedInStatus({isLoggedIn: true}))
+        dispatch(fetchAndSetWish())
+      }
+    })
+    
 
     // add scroll event listner
     const scrollHandler = () => {

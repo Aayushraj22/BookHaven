@@ -14,9 +14,6 @@ const logout = (navigate, dispatch) => {
     fetchData(endpoint)
     .then((data) => {
         if(data) {
-            // these delete it from the browser
-            Cookies.remove('token', { path: '/', sameSite: 'None', secure: true })
-            Cookies.remove('uid', { path: '/', sameSite: 'None', secure: true })
             removeKeyFromLocalStorage('uid')
 
             // remove wish state 
