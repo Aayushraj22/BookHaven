@@ -9,7 +9,12 @@ function useSlice(name) {
 }
 
 
+function isPresentInWishlist (bookId) {
+    const [ slice ] = useSlice('wish')
+    return !!slice.wishlist.find(item => item._id === bookId)
+}
 
 export {
     useSlice, 
+    isPresentInWishlist,
 }

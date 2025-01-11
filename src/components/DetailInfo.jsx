@@ -3,8 +3,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Button from './Button'
 import Image from './Image'
 import { useDispatch, useSelector } from 'react-redux'
-import { addWish } from '../redux/slices/WishlistSlice'
+import { addWish, deleteWish } from '../redux/slices/WishlistSlice'
 import TextKV from '../utility/components/TextKV'
+import { isPresentInWishlist } from '../redux/utility'
 
 function DetailInfo() {
   const navigate = useNavigate()
@@ -15,6 +16,9 @@ function DetailInfo() {
   const {authors, name, ratings, price, publishedAt, imgurl, description, _id} = book;
   const {status} = useSelector(state => state.auth)
 
+  // verify current book was in the wishlist or not
+  const isWishedAlready = isPresentInWishlist(_id)
+
   function handleClickButton(usedFor){
     if(usedFor === 'wish') {
       
@@ -24,7 +28,11 @@ function DetailInfo() {
         return;
       }
 
-      dispatch(addWish(_id))
+      if(isWishedAlready){
+        dispatch(deleteWish(_id))
+      } else {
+        dispatch(addWish(book))
+      }
       
     } else {
       navigate('/purchase', {state: {
@@ -59,11 +67,11 @@ function DetailInfo() {
             round={'rounded-lg'} 
           />
           <p 
-            className='absolute rounded-lg w-8 h-8 right-0 bottom-0 grid place-items-center bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500 dark:text-stone-200 hover:text-white cursor-pointer'
+            className={`absolute rounded-lg w-8 h-8 right-0 bottom-0 grid place-items-center  cursor-pointer ${isWishedAlready ? 'bg-yellow-500 text-stone-200 dark:bg-yellow-700' : 'bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500 dark:text-stone-200 hover:text-white'}`}
             onClick={() => handleClickButton('wish')}
-            title='add in wishlist'
+            title={isWishedAlready ? 'remove from Wishlist' : 'add to Wishlist'}
           >
-            +
+            {isWishedAlready ? '-' : '+'}
           </p>
         </div>
         <div 

@@ -22,13 +22,14 @@ function Layout() {
 
     // get the user authentication status by an api call
     const endpoint = `users/auth-status`
-    fetchData(endpoint).then(data => {
-      if(data.status === 200){
-        dispatch(userLoggedInStatus({isLoggedIn: true}))
-        dispatch(fetchAndSetWish())
-      }
-    })
-    
+    if(readLocalStorage('uid')) {
+      fetchData(endpoint).then(data => {
+        if(data.status === 200){
+          dispatch(userLoggedInStatus({isLoggedIn: true}))
+          dispatch(fetchAndSetWish())
+        }
+      })
+    }
 
     // add scroll event listner
     const scrollHandler = () => {
