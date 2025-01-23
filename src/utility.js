@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { resetWishlist } from './redux/slices/WishlistSlice'
@@ -54,7 +53,7 @@ async function fetchData(endpoint, navigate) {
             navigate('/login')
         }
 
-        return undefined
+        return data
     }
 }
 
@@ -64,6 +63,26 @@ async function postData(endpoint, data, options) {
 
     try {
         const response = options ? await axios.post(url, data, options) : await axios.post(url, data)
+        return response.data
+    } catch (error) {
+        if(error.message === 'Network Error') {
+            toastMsg(error.message, 'error')
+            return undefined;
+        }
+
+        const {data} = await error.response
+        // console.log('error: ',error)
+        // console.log(`${response.data}`,error.status)
+        toastMsg(`${data.message}`, 'error')
+        return undefined
+    }
+}
+
+async function modifyData(endpoint, data) {
+    const url = `${import.meta.env.VITE_DOMAIN_NAME}/${endpoint}`
+
+    try {
+        const response = await axios.put(url, data, {withCredentials: true})
         return response.data
     } catch (error) {
         if(error.message === 'Network Error') {
@@ -150,5 +169,5 @@ export {
     removeKeyFromLocalStorage,
     toastMsg,
     listenerToCheckInternetConnection,
-    
+    modifyData
 }

@@ -8,6 +8,7 @@ import { logout } from '../utility'
 import { useSlice } from '../redux/utility'
 import { BsSearch } from "react-icons/bs";
 import { useSelector } from 'react-redux'
+import { FaGear } from "react-icons/fa6";
 
 function Navbar() {
   const navigate = useNavigate()
@@ -78,12 +79,8 @@ function Navbar() {
           )}
       
           <div className={`place-content-center ${status ? 'grid' : 'md:hidden'}`}>
-            <Image 
-              src='setting.png' 
-              height='h-10' 
-              width='w-10 '
-              cursor={'cursor-pointer'}
-              clickMethod = {handleToggleSettingBlock}
+            <FaGear 
+              className='h-8 w-8 cursor-pointer text-slate-500 dark:text-slate-300' onClick={handleToggleSettingBlock}
             />
 
             <div 

@@ -17,6 +17,7 @@ import AuthorPage from "./pages/AuthorPage";
 import Fallback from "./utility/components/Fallback";
 import WishlistPage from "./pages/WishlistPage";
 import PurchasedBookPage from "./pages/PurchasedBookPage";
+import RatePage from "./pages/RatePage";
 
 const Signin = lazy(() => import('./pages/SigninPage'))
 const Signup = lazy(() => import('./pages/SignupPage'))
@@ -31,11 +32,12 @@ const router = createBrowserRouter(
       <Route path='/errorPage' element={<ErrorPage />} />
       <Route path="/addBook" element={<AddBookPage />} />
       
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<Layout />} errorElement={<ErrorPage />}>
         <Route index element={<App />} />  
         <Route path="bookDetails" element={<DetailInfo />} />
         <Route path="gallery" element={<GalleryPage />} />
         <Route path='author/:id' element={<AuthorPage />} />
+        <Route path='rate' element={<RatePage />} />
         <Route path="myBooks" element={<ProtectedRoute >
           <PurchasedBookPage />
         </ProtectedRoute> } />

@@ -7,6 +7,7 @@ import { fetchAndSetWish } from '../redux/slices/WishlistSlice'
 import { fetchData, readLocalStorage, setLocalStorage } from '../utility'
 import Cookies from 'js-cookie'
 import { TbNavigationTop } from "react-icons/tb";
+import { setUserPurchasedBook } from '../redux/slices/purchasedSlice'
 
 
 function Layout() {
@@ -27,6 +28,7 @@ function Layout() {
         if(data.status === 200){
           dispatch(userLoggedInStatus({isLoggedIn: true}))
           dispatch(fetchAndSetWish())
+          dispatch(setUserPurchasedBook(readLocalStorage('uid')))
         }
       })
     }

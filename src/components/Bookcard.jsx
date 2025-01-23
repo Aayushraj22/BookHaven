@@ -5,13 +5,15 @@ import Button from './Button'
 import { addWish, deleteWish } from '../redux/slices/WishlistSlice'
 import { useSlice } from '../redux/utility'
 import { postData, readLocalStorage, toastMsg } from '../utility'
+import { FaRegStar, FaStar } from 'react-icons/fa'
 
 
 function Bookcard({ bookInfo, usedFor='default' }) {
-  const {imgurl, name, authors, price, _id, ratings } = bookInfo
+  const {imgurl, name, authors, price, _id, ratings, id } = bookInfo
   const [slice, dispatch] = useSlice('wish')
   const navigate = useNavigate()
 
+  const uid = readLocalStorage('uid')
   const handleClickButton = (btnFor='add') => {
     if(!readLocalStorage('uid')) {
         navigate('/login')
@@ -80,23 +82,23 @@ function Bookcard({ bookInfo, usedFor='default' }) {
                 <Link to='/bookDetails' className='h-full w-full grid place-items-center rounded' state={bookInfo}>Read More</Link>
             </Button> 
             <span title='price' className='ml-2 select-none'>$ {price}</span>
-            <div className='float-right inline-block my-2 py-1'>
+            <div className='float-right inline-block my-2 py-1 '>
                 {usedFor === 'myBooks' ? (
-                    <label 
-                        className='bg-stone-100 dark:bg-stone-900 text-slate-900 dark:text-slate-100 rounded-sm p-1'
-                    >
-                        <input 
-                            type='number' 
-                            title='rate me' 
-                            min={0} 
-                            max={5}
-                            placeholder={bookRating || 5}
-                            className='bg-transparent w-8 h-8 border-none outline-none'
+                    <Button
+                        display={'inline-block'}
+                        width={'w-fit'}
+                        height={'h-fit'}
+                        padding={'px-2 py-1'}
+                        bg={'bg-slate-200 dark:bg-slate-800'}
+                        color={'dark:text-slate-200'}
+                        clickMethod={() => navigate('/rate', {state: {bookId: id}}) }
 
-                            onKeyDown={handleRateBook}
-                        />
-                        ⭐
-                    </label>) : (<>
+                    >
+                        {ratings && ratings[uid] ? (<span              className='flex items-center gap-1 w-fit'>{ratings[uid]}
+                        <FaStar className='text-yellow-400' title='Can Rate Again'/>
+                    </span>) : <FaRegStar title='Rate Me'/>}
+                    </Button>
+                ) : (<>
                     {bookRating ? (
                         <Button 
                             width={'w-12'} 

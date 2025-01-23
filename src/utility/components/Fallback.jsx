@@ -1,5 +1,5 @@
 import React from 'react'
-import {ColorRing, MagnifyingGlass, Rings, Watch} from 'react-loader-spinner'
+import {ColorRing, MagnifyingGlass, Rings, Watch, ThreeDots, Comment, } from 'react-loader-spinner'
 
 function Fallback({loader}) {
     switch (loader) {
@@ -57,6 +57,36 @@ function Fallback({loader}) {
                         wrapperStyle={{}}
                         wrapperClass="color-ring-wrapper"
                         colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                    />
+                </div>
+            )
+        case 'threeDots': 
+            return (
+                <div className='w-full h-full grid place-items-center bg-transparent'>
+                    <ThreeDots
+                        visible={true}
+                        height="40"
+                        width="40"
+                        color="#00f"
+                        radius="5"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
+            )
+        case 'comment': 
+            return (
+                <div className='w-full h-full grid place-items-center bg-transparent'>
+                    <Comment
+                        visible={true}
+                        height="20"
+                        width="20"
+                        ariaLabel="comment-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="comment-wrapper"
+                        color="#fff"
+                        backgroundColor="#F4442E"
                     />
                 </div>
             )
