@@ -47,19 +47,6 @@ function Bookcard({ bookInfo, usedFor='default' }) {
       return obj;
     }
 
-  const handleRateBook = async (e) => {
-    const value = e.target.value;
-
-    if(e.key === 'Enter' && value) {
-        const endpoint = `rates/${bookInfo.id}`
-        const data = {
-            rated: value
-        }
-        const response = await postData(endpoint, data, {withCredentials: true})
-        toastMsg(response, 'success')
-        
-    }
-  }
   
   const bookRating = countRating()?.rate;
   const isWished = verifyIsWished()
@@ -94,7 +81,7 @@ function Bookcard({ bookInfo, usedFor='default' }) {
                         clickMethod={() => navigate('/rate', {state: {bookId: id}}) }
 
                     >
-                        {ratings && ratings[uid] ? (<span              className='flex items-center gap-1 w-fit'>{ratings[uid]}
+                        {ratings && ratings[uid] ? (<span className='flex items-center gap-1 w-fit'>{ratings[uid]}
                         <FaStar className='text-yellow-400' title='Can Rate Again'/>
                     </span>) : <FaRegStar title='Rate Me'/>}
                     </Button>

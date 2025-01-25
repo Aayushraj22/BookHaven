@@ -3,6 +3,8 @@ import Input from '../components/Input'
 import Button from '../components/Button'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { fetchData, postData, readLocalStorage } from '../utility'
+import { useDispatch } from 'react-redux'
+import { deleteWish } from '../redux/slices/WishlistSlice'
 
 function PurchasePage() {
     const navigate = useNavigate()
@@ -11,6 +13,7 @@ function PurchasePage() {
     const [purchaseWay, setPurchaseWay] = useState(state?.pType)
     const [user, setUser] = useState({})
     const [qty, setQty] = useState(state?.book?.qty || 1)
+    const dispatch = useDispatch()
 
     // const isLoggedIn = isUserAuthentic()
 
@@ -55,6 +58,7 @@ function PurchasePage() {
         const endpoint = `books/${book?.id}/purchase`
         postData(endpoint, purchase, {withCredentials: true})
         .then(() => {
+            dispatch(deleteWish(book._id))
             navigate('/myBooks')
         }).catch(err => {
             console.log('while purchasing error happens, ',err)

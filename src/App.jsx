@@ -7,7 +7,7 @@ function App() {
     <div className='bg-white dark:bg-black min-h-dvh w-full dark:text-slate-100'>
       <HeroSection />
       <TrendingSection title='5 Most Rated Books' featuring='rated' />
-      {/* <TrendingSection title='5 best selling Book' featuring='selled' /> */}
+      <TrendingSection title='5 best selling Book' featuring='selled' />
     </div>
   )
 }
