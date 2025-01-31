@@ -156,6 +156,64 @@ function listenerToCheckInternetConnection(type) {
     }
 }
 
+/**
+ * this method calculate the age from given two date string, date string should be in format dd/mm/yyyy
+ * @param {String} d1 
+ * @param {String} d2 
+ * @returns {Number} age
+ */
+function getAge (d1, d2) {
+    if( !d2 ){
+        const date = new Date()
+        const day = date.getDate()
+        const month = date.getMonth() + 1
+        const year = date.getFullYear()
+        
+        d2 = `${day}/${month}/${year}`
+    }
+    
+    d1 = d1.split('/')
+    d2 = d2.split('/')
+    
+    const yearGap = (+d2[2]) - (+d1[2]) - 1
+    
+    const daysInD1 = 365 - calculateLivedDays(+d1[0], +d1[1], +d1[2]) + Number(isLeapYear(+d1[2]))
+    
+    const daysInD2 = calculateLivedDays(+d2[0], +d2[1], +d2[2]) + Number(isLeapYear(+d2[2]))
+    
+    return yearGap + daysToYear(daysInD1 + daysInD2)
+}
+
+function daysToYear(days) {
+    return Math.floor(days / 365)
+}
+
+function calculateLivedDays(day, month, year) {
+    // console.log(`days: ${day}, month: ${month}, year: ${year}`)
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    let days = day;
+    
+    for(let i=0; i<month-1; i++) {
+        days += daysInMonth[i];
+    }
+    
+    if( isLeapYear( year ) ) {
+        days += 1
+    }
+    
+    return days
+}
+
+function isLeapYear ( year ) {
+    if( year % 100 === 0 ) {    // century year
+        return !!(year % 400 === 0)     // leap year satisfy
+    } 
+    
+    return !!(year % 4 === 0)   // leap year satisfy
+}
+
+
 
 
 export { 
@@ -169,5 +227,6 @@ export {
     removeKeyFromLocalStorage,
     toastMsg,
     listenerToCheckInternetConnection,
-    modifyData
+    modifyData,
+    getAge
 }

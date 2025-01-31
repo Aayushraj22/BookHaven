@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { fetchData } from '../utility'
+import { fetchData, getAge } from '../utility'
 import { useParams } from 'react-router-dom'
 import Image from '../components/Image'
 import Gallery from '../components/Gallery'
@@ -13,6 +13,8 @@ function AuthorPage() {
   const [isloading, setIsloading] = useState(false)
   
   const year = authorInfo?.age ? authorInfo?.age.split('-') : []
+
+  const age = authorInfo?.age ? getAge(year[0], year[1]) : 'NA'
 
   useEffect(() => {
     setIsloading(true)
@@ -40,11 +42,12 @@ function AuthorPage() {
           <p className='capitalize md:text-lg'>{authorInfo?.name}</p>
         </div>
         <div className='flex-1 p-2 w-full'>
-          <TextKV name={'nationality'} value={authorInfo?.nationality} />
+          <TextKV name={'nationality'} value={authorInfo?.nationality || 'NA'} />
           {authorInfo?.bio ? <TextKV name={'bio'} value={authorInfo?.bio} /> : ''}
-          <TextKV name={'born at'} value={year[0]} />
-          {year.length > 1 ? <TextKV name={'died at'} value={year[1]} /> : ''}
-          <TextKV name={'age'} value={'will computed later'} />
+          {year?.['0'] && <TextKV name={'born'} value={year[0]} />}
+          
+          {year?.['1'] && <TextKV name={'died'} value={year[1]} /> }
+          <TextKV name={'age'} value={age} />
           <TextKV name={'available books'} value={authorInfo?.booksWritten?.length} />
         </div>
       </header>

@@ -31,8 +31,6 @@ function Navbar() {
   const openSearchBox = () => {
     setShowSearchBox(true)
   }
-  
-
 
   return (
     <nav className='w-full bg-slate-200 dark:bg-slate-800 flex p-2 px-3 '>
