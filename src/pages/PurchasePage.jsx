@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { fetchData, postData, readLocalStorage } from '../utility'
 import { useDispatch } from 'react-redux'
 import { deleteWish } from '../redux/slices/WishlistSlice'
+import { addPurchasedBook } from '../redux/slices/purchasedSlice'
 
 function PurchasePage() {
     const navigate = useNavigate()
@@ -58,6 +59,7 @@ function PurchasePage() {
         const endpoint = `books/${book?.id}/purchase`
         postData(endpoint, purchase, {withCredentials: true})
         .then(() => {
+            dispatch(addPurchasedBook({purchase}))
             dispatch(deleteWish(book._id))
             navigate('/myBooks')
         }).catch(err => {

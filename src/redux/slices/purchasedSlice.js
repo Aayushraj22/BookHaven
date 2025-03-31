@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { fetchData } from "../../utility";
 
 const InitialState = {
-    purchaseList: [],
+    purchaseList: undefined,
     total: 0,
 }
 
@@ -18,21 +18,14 @@ export const setUserPurchasedBook = createAsyncThunk('purchasedSlice/setUserPurc
     }
 })
 
-export const addPurchasedBook = createAsyncThunk('purchasedSlice/addPurchasedBook', async () => {
-    const endpoint = ``
-
-    try {
-        const response = await fetchData(endpoint)
-        return response
-    } catch (error) {
-        throw new Error()
-    }
-})
-
 const purchasedSlice = createSlice({
     name: 'purchase',
     initialState: InitialState,
-    reducers: {},
+    reducers: {
+        addPurchasedBook: (state,action) => {
+            state.purchaseList.push(action.payload)
+        }
+    },
     extraReducers: (builder) => {
         builder
         .addCase(setUserPurchasedBook.fulfilled, (state,action) => {
@@ -44,19 +37,9 @@ const purchasedSlice = createSlice({
             state.total = 0
         })
 
-        builder
-        .addCase(addPurchasedBook.fulfilled, (state,action) => {
-            if(action.payload === 'congratulation Reader 👍') {
-                return; // do nothing
-            } else {
-                state.push(action.payload)
-            }
-        })
-        .addCase(addPurchasedBook.rejected, (state,action) => {
-            state = state
-        })
+    
     }
 })
 
-
+export const { addPurchasedBook }  = purchasedSlice.actions
 export default purchasedSlice.reducer

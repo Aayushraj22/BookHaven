@@ -23,18 +23,18 @@ function Gallery({
         ''
       }
       
-      <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-10 xl:px-32 '>
+      <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-10 xl:px-32'>
           {isLoading ? 
             (
               new Array(items).fill().map((_, i) => i+1).map(item => <BookcardSkeleton key={item} />)
             ) : 
             (
-              data ? data?.map(item => (
+              data?.length ? data?.map(item => (
                 category === 'books' ? 
                   <Bookcard key={item._id} bookInfo={item} usedFor={usedFor} /> : 
                   <AuthorCard key={item._id} info={item} />
               )) : 
-              <p>Nothing to Show</p>
+              <p className='capitalize text-red-600 dark:text-red-200 text-bold text-lg text-center h-10 leading-10 font-serif rounded-lg select-none'>nothing to show</p>
             )
           }
       </div>

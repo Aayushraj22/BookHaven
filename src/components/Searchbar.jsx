@@ -4,8 +4,10 @@ import { fetchData, postData } from '../utility'
 import Button from './Button'
 import Fallback from '../utility/components/Fallback'
 import { BsSearch } from 'react-icons/bs'
+import { motion } from 'motion/react'
+import { MdOutlineClose } from "react-icons/md";
 
-function Searchbar({closeSearchBox}) {
+function Searchbar({ closeSearchBox }) {
   const [searchResult, setSearchResult] = useState([])
   const [searchText, setSearchText] = useState('')
   const [isloading, setIsloading] = useState(false)
@@ -88,17 +90,29 @@ function Searchbar({closeSearchBox}) {
   }
   
   return (
-    <div className='fixed bg-transparent backdrop-blur-xl z-20 grid place-items-center left-0 right-0 top-0 bottom-0'>
-      <div className='w-5/6 md:w-1/2 text-stone-800 dark:text-stone-300 flex flex-col items-end p-3 rounded-md bg-stone-200 dark:bg-stone-700'>
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.2 } }}
+      exit={{  opacity: 0, scale: 0 }} 
+      className='fixed bg-transparent backdrop-blur-xl z-20 grid place-items-center left-0 right-0 top-0 bottom-0'
+      onClick={closeSearchBox}
+    >
+      <div 
+        className='w-5/6 md:w-1/2 text-stone-800 dark:text-stone-300 flex flex-col items-end p-3 rounded-md bg-stone-200 dark:bg-stone-700'
+        onClick={(e) => { e.stopPropagation()}}
+      >
         <Button
-        margin={'mb-3'}
+          margin={'mb-3'}
           bg={'bg-stone-300 dark:bg-stone-800'}
           color={'text-stone-800 dark:text-stone-400' }
           hover={'hover:bg-stone-400 hover:text-stone-100 dark:hover:text-stone-200 dark:hover:bg-stone-900'}
           padding={'px-2 py-1'}
+          width={'w-8'}
+          height={'h-8'}
+          display={'grid place-items-center'}
           clickMethod={closeSearchBox}
         >
-          close
+          <MdOutlineClose />
         </Button>
 
         <p className='border w-full rounded-full dark:border-stone-800 border-stone-400 '></p>
@@ -150,7 +164,7 @@ function Searchbar({closeSearchBox}) {
         
         
       </div>
-    </div>
+    </motion.div>
   )
 }
 

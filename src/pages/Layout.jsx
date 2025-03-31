@@ -4,8 +4,7 @@ import { Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { userLoggedInStatus } from '../redux/slices/authSlice'
 import { fetchAndSetWish } from '../redux/slices/WishlistSlice'
-import { fetchData, readLocalStorage, setLocalStorage } from '../utility'
-import Cookies from 'js-cookie'
+import { fetchData, readLocalStorage, } from '../utility'
 import { TbNavigationTop } from "react-icons/tb";
 import { setUserPurchasedBook } from '../redux/slices/purchasedSlice'
 
@@ -23,12 +22,13 @@ function Layout() {
 
     // get the user authentication status by an api call
     const endpoint = `users/auth-status`
-    if(readLocalStorage('uid')) {
+    const userId = readLocalStorage('uid')
+    if( userId ) {
       fetchData(endpoint).then(data => {
         if(data.status === 200){
           dispatch(userLoggedInStatus({isLoggedIn: true}))
           dispatch(fetchAndSetWish())
-          dispatch(setUserPurchasedBook(readLocalStorage('uid')))
+          dispatch(setUserPurchasedBook( userId ))
         }
       })
     }
@@ -38,18 +38,20 @@ function Layout() {
       const targetHeight = window.innerHeight
       const targetElement = backToTopRef.current 
 
-      if(scrollEleRef.current.scrollTop >= targetHeight) {
-        targetElement.classList.add('grid')
-        targetElement.classList.remove('hidden')
-      } else {
-        targetElement.classList.add('hidden')
-        targetElement.classList.remove('grid')
+      if( ( scrollEleRef.current.scrollTop >= targetHeight && !targetElement.classList.contains('grid') ) || ( scrollEleRef.current.scrollTop < targetHeight && targetElement.classList.contains('grid') ) ) {
+        targetElement.classList.toggle('grid')
+        targetElement.classList.toggle('hidden')
       }
     }
 
     scrollEleRef.current.addEventListener('scroll', scrollHandler)
 
+    return () => {
+      scrollEleRef.current.removeEventListener('scroll', scrollHandler)
+    }
+
   }, [])  
+
   
   return (
     <section 

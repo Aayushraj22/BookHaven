@@ -4,10 +4,16 @@ import Gallery from '../components/Gallery'
 import { fetchData, readLocalStorage } from '../utility'
 import Fallback from '../utility/components/Fallback'
 import { FaFilter } from "react-icons/fa6";
+import { useSlice } from '../redux/utility'
 
 function PurchasedBookPage() {
     const [books, setBooks] = useState([])
-    const [filter, setFilter] = useState({})
+    const [filter, setFilter] = useState({
+        text: 'all',
+        books: undefined
+    })
+    const [ slice ] = useSlice('purchase')
+    const { purchaseList } = slice
 
     const handleChangeFilter = (e, selectUsed=false) => {
         let text = undefined
@@ -33,30 +39,32 @@ function PurchasedBookPage() {
 
 
     useEffect(() => {
-        const userId = readLocalStorage('uid')
-        const endpoint = `users/myBooks?userId=${userId}`
-        fetchData(endpoint)
-        .then(data => {
-            if(data) {
-                Promise.all(data.map(obj => fetchData(`books/${obj.bookId}`)))
-                .then(list => {
-                    const userAllInfoList = []
-                    for(let ind=0; ind<data.length; ind++) {
-                        userAllInfoList.push({
-                            ...data[ind],
-                            ...list[ind],
-                        })
-                    }
-                    
-                    setBooks(userAllInfoList)
-                    setFilter({
-                        text: 'all',
-                        books: userAllInfoList,
+        
+
+        if(purchaseList?.length ) {
+            Promise.all(purchaseList.map(obj => fetchData(`books/${obj.bookId}`)))
+            .then(list => {
+                const userAllInfoList = []
+                for(let ind=0; ind<purchaseList.length; ind++) {
+                    userAllInfoList.push({
+                        ...purchaseList[ind],
+                        ...list[ind],
                     })
+                }
+                
+                setBooks(userAllInfoList)
+                setFilter({
+                    text: 'all',
+                    books: userAllInfoList,
                 })
-            }
-        })
-    }, [])
+            })
+        }  else if( purchaseList?.length ===  0 ) {
+            setFilter({
+                text: 'all',
+                books: [],
+            })
+        }
+    }, [purchaseList])
     
   return (
     <>
@@ -103,7 +111,7 @@ function PurchasedBookPage() {
                 </div>
             </header>
         
-            {filter?.books ? <Gallery data={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <Fallback loader={'colorRing'} />} 
+            {filter.books ? <Gallery data={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <Fallback loader={'colorRing'} />} 
         </main>
     </>
   )

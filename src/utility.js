@@ -37,7 +37,7 @@ async function fetchData(endpoint, navigate) {
         const response = await axios.get(url, {withCredentials: true})
         return response.data
     } catch (error) {
-        const {data} = await error.response
+        const { data } = await error.response
         
         if(data.message === 'Network Error' && navigate) {
             toastMsg(data.message, 'error')
