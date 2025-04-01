@@ -45,9 +45,10 @@ function Layout() {
     }
 
     scrollEleRef.current.addEventListener('scroll', scrollHandler)
+    const ele = scrollEleRef.current
 
     return () => {
-      scrollEleRef.current.removeEventListener('scroll', scrollHandler)
+      ele.removeEventListener('scroll', scrollHandler)
     }
 
   }, [])  
