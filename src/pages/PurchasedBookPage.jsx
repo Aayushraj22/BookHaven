@@ -39,31 +39,39 @@ function PurchasedBookPage() {
 
 
     useEffect(() => {
-        
 
-        if(purchaseList?.length ) {
-            Promise.all(purchaseList.map(obj => fetchData(`books/${obj.bookId}`)))
-            .then(list => {
-                const userAllInfoList = []
-                for(let ind=0; ind<purchaseList.length; ind++) {
-                    userAllInfoList.push({
-                        ...purchaseList[ind],
-                        ...list[ind],
+        async function fetchBookDetails () {
+
+            try {
+                if( purchaseList?.length ) {
+                    const list = await Promise.all(purchaseList.map(obj => fetchData(`books/${obj.bookId}`)))
+
+                    const userAllInfoList = []
+                    for(let ind=0; ind<purchaseList.length; ind++) {
+                        userAllInfoList.push({
+                            ...purchaseList[ind],
+                            ...list[ind],
+                        })
+                    }
+                    
+                    setBooks(userAllInfoList)
+                    setFilter({
+                        text: 'all',
+                        books: userAllInfoList,
                     })
+                } else if( purchaseList?.length === 0 ) {
+                    throw new Error();
                 }
-                
-                setBooks(userAllInfoList)
+            } catch (error) {
                 setFilter({
                     text: 'all',
-                    books: userAllInfoList,
+                    books: []
                 })
-            })
-        }  else if( purchaseList?.length ===  0 ) {
-            setFilter({
-                text: 'all',
-                books: [],
-            })
+            }
+
         }
+        
+        fetchBookDetails()
     }, [purchaseList])
     
   return (

@@ -29,6 +29,10 @@ function Navbar() {
     setShowSearchBox( prev => !prev )
   }
 
+  const handleLogout = () => {
+    logout(navigate, dispatch, handleToggleSettingBlock)
+  }
+
   useEffect(() => {
     const windowResize = () => {
       const screenWidth = innerWidth 
@@ -105,67 +109,66 @@ function Navbar() {
                     className='fixed inset-0 z-10 backdrop-blur-sm'
                     onClick={handleToggleSettingBlock}  
                   >
-                  <div 
-                    className='float-end mt-10 p-1 bg-slate-200 dark:bg-slate-800 rounded w-36 ' 
-                  >
-                    <Button 
-                      clickMethod={() => handleNavigation('gallery')}
-                      height='h-8'
-                      width='w-full'
-                      bg='bg-transparent'
-                      color='dark:text-slate-50'
-                      hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
-                      display={'md:hidden'}
+                    <div 
+                      className='float-end mt-10 p-1 bg-slate-200 dark:bg-slate-800 rounded w-36 ' 
                     >
-                      gallery
-                    </Button>
-                    {
-                      status ? (<>
                       <Button 
-                        clickMethod={() => handleNavigation('myBooks')}
+                        clickMethod={() => handleNavigation('gallery')}
                         height='h-8'
                         width='w-full'
                         bg='bg-transparent'
                         color='dark:text-slate-50'
                         hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
-                      >
-                        my books
-                      </Button>
-                      <Button 
-                        clickMethod={() => handleNavigation('myWish')}
-                        height='h-8'
-                        width='w-full'
-                        bg='bg-transparent'
-                        color='dark:text-slate-50'
-                        hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
-                      >
-                        {total ? total : ''} wishlist
-                      </Button>
-                      <Button 
-                        clickMethod={() => logout(navigate, dispatch)}
-                        height='h-8'
-                        width='w-full'
-                        bg={'bg-red-500 dark:bg-red-700'}
-                        color='text-slate-50'
-                        hover={'hover:bg-red-600'}
-                      >
-                        logout
-                      </Button>
-                    </>) : (<Button 
-                        clickMethod={() => handleNavigation('login')}
-                        height='h-8'
-                        width='w-full'
-                        bg='bg-blue-400 dark:bg-blue-600'
-                        color='text-slate-50'
-                        hover='hover:bg-blue-500 dark:hover:bg-blue-400'
-                        text='text-xs'
                         display={'md:hidden'}
                       >
-                        Sign In
-                      </Button>)
-                    }
-                  
-                  </div>
+                        gallery
+                      </Button>
+                      {
+                        status ? (<>
+                        <Button 
+                          clickMethod={() => handleNavigation('myBooks')}
+                          height='h-8'
+                          width='w-full'
+                          bg='bg-transparent'
+                          color='dark:text-slate-50'
+                          hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
+                        >
+                          my books
+                        </Button>
+                        <Button 
+                          clickMethod={() => handleNavigation('myWish')}
+                          height='h-8'
+                          width='w-full'
+                          bg='bg-transparent'
+                          color='dark:text-slate-50'
+                          hover='hover:bg-slate-400 hover:dark:bg-slate-950 hover:text-white'
+                        >
+                          {total ? total : ''} wishlist
+                        </Button>
+                        <Button 
+                          clickMethod={handleLogout}
+                          height='h-8'
+                          width='w-full'
+                          bg={'bg-red-500 dark:bg-red-700'}
+                          color='text-slate-50'
+                          hover={'hover:bg-red-600'}
+                        >
+                          logout
+                        </Button>
+                      </>) : (<Button 
+                          clickMethod={() => handleNavigation('login')}
+                          height='h-8'
+                          width='w-full'
+                          bg='bg-blue-400 dark:bg-blue-600'
+                          color='text-slate-50'
+                          hover='hover:bg-blue-500 dark:hover:bg-blue-400'
+                          text='text-xs'
+                          display={'md:hidden'}
+                        >
+                          Sign In
+                        </Button>)
+                      }
+                    </div>
                 </motion.div>
               )}
             </AnimatePresence>

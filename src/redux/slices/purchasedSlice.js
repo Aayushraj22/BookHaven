@@ -24,6 +24,11 @@ const purchasedSlice = createSlice({
     reducers: {
         addPurchasedBook: (state,action) => {
             state.purchaseList.push(action.payload)
+        },
+
+        resetPurchasedBookList: (state, action) => {
+            state.purchaseList = undefined
+            state.total = 0
         }
     },
     extraReducers: (builder) => {
@@ -41,5 +46,5 @@ const purchasedSlice = createSlice({
     }
 })
 
-export const { addPurchasedBook }  = purchasedSlice.actions
+export const { addPurchasedBook, resetPurchasedBookList }  = purchasedSlice.actions
 export default purchasedSlice.reducer

@@ -2,12 +2,13 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { resetWishlist } from './redux/slices/WishlistSlice'
 import { userLoggedInStatus } from './redux/slices/authSlice'
+import { resetPurchasedBookList } from './redux/slices/purchasedSlice'
 
 function isUserAuthentic () {
     return localStorage.getItem('uid') 
 }
 
-const logout = (navigate, dispatch) => {
+const logout = (navigate, dispatch, cb) => {
     // logout user in backend server (dead cookie)
     const endpoint = `users/logout`
     fetchData(endpoint)
@@ -20,8 +21,10 @@ const logout = (navigate, dispatch) => {
             dispatch(userLoggedInStatus({
                 isLoggedIn: false
             }))
+            dispatch(resetPurchasedBookList())
             
             toastMsg('User Logout', 'success')
+            cb()
             navigate('/')
         } else {
             toastMsg('User Logout Failed ❌', 'error')

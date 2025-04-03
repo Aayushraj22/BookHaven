@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import Image from './Image'
 import Button from './Button'
 import { addWish, deleteWish } from '../redux/slices/WishlistSlice'
 import { useSlice } from '../redux/utility'
-import { postData, readLocalStorage, toastMsg } from '../utility'
+import { readLocalStorage } from '../utility'
 import { FaRegStar, FaStar } from 'react-icons/fa'
 
 
@@ -97,16 +97,6 @@ function Bookcard({ bookInfo, usedFor='default' }) {
                             {bookRating} ⭐
                         </Button>) : ''
                     }
-                    <Button 
-                        height='h-6' 
-                        width='w-6' 
-                        bg={`${isWished ? 'bg-yellow-300 dark:bg-yellow-700' : 'bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500'}  `} 
-                        color='dark:text-stone-200' 
-                        margin={'ml-2'}
-                        clickMethod={isWished ? undefined : handleClickButton}
-                    >
-                        +
-                    </Button>
                     {usedFor === 'wish' ? 
                         (<Button 
                             height='h-6' 
@@ -117,7 +107,16 @@ function Bookcard({ bookInfo, usedFor='default' }) {
                             clickMethod={() => handleClickButton('delete')}
                             >
                             -
-                        </Button>) : ''
+                        </Button>) : (<Button 
+                        height='h-6' 
+                        width='w-6' 
+                        bg={`${isWished ? 'bg-yellow-300 dark:bg-yellow-700' : 'bg-stone-200 dark:bg-stone-950 hover:bg-yellow-500'}  `} 
+                        color='dark:text-stone-200' 
+                        margin={'ml-2'}
+                        clickMethod={isWished ? undefined : handleClickButton}
+                    >
+                        +
+                    </Button>)
                     }</>)
                 }
             </div>
