@@ -4,10 +4,10 @@ import TrendingSection from './components/TrendingSection'
 
 function App() {
   return (
-    <div className='bg-white dark:bg-black min-h-dvh w-full dark:text-slate-100'>
+    <div className='bg-slate-100 dark:bg-black min-h-dvh w-full dark:text-slate-100 rounded-md'>
       <HeroSection />
-      <TrendingSection title='5 Most Rated Books' featuring='rated' />
-      <TrendingSection title='5 best selling Book' featuring='selled' />
+      <TrendingSection title='top-rated books' featuring='rated' />
+      <TrendingSection title='Top-selling books' featuring='selled' />
     </div>
   )
 }

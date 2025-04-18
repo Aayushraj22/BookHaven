@@ -76,7 +76,7 @@ function PurchasedBookPage() {
     
   return (
     <>
-        <main className='dark:bg-black dark:text-white h-full'>
+        <main className='dark:bg-black bg-slate-100 dark:text-white h-full'>
             <header className='bg-orange-300 dark:bg-orange-800 flex items-center h-14 px-3 md:px-10 gap-1'>
                 <p className='flex-1 capitalize text-sm sm:text-lg font-serif text-orange-800 dark:text-orange-300 flex gap-1 items-center '>
                     <FaFilter /> 
@@ -119,7 +119,7 @@ function PurchasedBookPage() {
                 </div>
             </header>
         
-            {filter.books ? <Gallery data={filter?.books} title='My Collection' usedFor={'myBooks'}/> : <Fallback loader={'colorRing'} />} 
+            {filter.books ? <Gallery data={filter?.books} title='My Collection' usedFor={'purchased-books'}/> : <Fallback loader={'colorRing'} />} 
         </main>
     </>
   )

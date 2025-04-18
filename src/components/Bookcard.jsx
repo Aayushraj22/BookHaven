@@ -70,7 +70,7 @@ function Bookcard({ bookInfo, usedFor='default' }) {
             </Button> 
             <span title='price' className='ml-2 select-none'>$ {price}</span>
             <div className='float-right inline-block my-2 py-1 '>
-                {usedFor === 'myBooks' ? (
+                {usedFor === 'purchased-books' ? (
                     <Button
                         display={'inline-block'}
                         width={'w-fit'}

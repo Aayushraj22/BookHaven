@@ -38,10 +38,10 @@ const router = createBrowserRouter(
         <Route path="gallery" element={<GalleryPage />} />
         <Route path='author/:id' element={<AuthorPage />} />
         <Route path='rate' element={<RatePage />} />
-        <Route path="myBooks" element={<ProtectedRoute >
+        <Route path="purchased-books" element={<ProtectedRoute >
           <PurchasedBookPage />
         </ProtectedRoute> } />
-        <Route path="myWish" element={<ProtectedRoute >
+        <Route path="wishlist" element={<ProtectedRoute >
           <WishlistPage />
         </ProtectedRoute> } />
       </Route>

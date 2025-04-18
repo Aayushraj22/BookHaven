@@ -129,7 +129,7 @@ function DetailInfo() {
 
   return (
     <>
-    <div className='p-2 dark:bg-black dark:text-stone-300 h-full px-4 select-none'>
+    <div className='p-2 dark:bg-black bg-slate-100 dark:text-stone-300 h-full px-4 select-none'>
       <div 
         className='flex flex-col md:flex-row max-sm:gap-2 gap-4 md:px-16 py-2 md:py-6'
       >

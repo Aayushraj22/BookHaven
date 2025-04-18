@@ -25,7 +25,7 @@ function AuthorCard({info}) {
             </Button> 
             {/* <span title='price' className='ml-2 select-none'>$ {price}</span> */}
             {/* <div className='float-right inline-block my-2 py-1'>
-                {usedFor === 'myBooks' ? (
+                {usedFor === 'purchased-books' ? (
                     <label 
                         className='bg-stone-100 dark:bg-stone-900 text-slate-900 dark:text-slate-100 rounded-sm p-1'
                     >

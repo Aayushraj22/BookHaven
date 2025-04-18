@@ -24,12 +24,12 @@ function TrendingSection({title, featuring}) {
     }, [])
     
   return (
-    <section>
+    <section className='mt-2'>
         <header className='py-4 bg-slate-100 dark:bg-slate-950'>
-            <h1 className='pl-4 lg:pl-16 text-lg sm:text-xl lg:text-3xl font-semibold text-stone-700 dark:text-slate-400 capitalize'>{title}</h1>
+            <h1 className='text-center text-lg sm:text-xl lg:text-3xl font-semibold text-slate-700 dark:text-slate-400 capitalize font-sans'>{title}</h1>
         </header>
 
-        <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-20 xl:px-32'>
+        <div className='responsive-grid-layout grid gap-3 py-4'>
             {books ? (books?.map(book => <Bookcard key={ book?.id} bookInfo={book} />)) : (
                 [1,2,3,4,5].map(item => <BookcardSkeleton key={item} />)
             )}

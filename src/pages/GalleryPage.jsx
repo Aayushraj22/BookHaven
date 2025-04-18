@@ -135,7 +135,7 @@ function GalleryPage() {
     }, [pageInfo.curPage, tab])
 
   return (
-    <section className='dark:bg-black dark:text-white h-full '>
+    <section className='dark:bg-black dark:text-white bg-slate-100 h-full rounded-md '>
         {/* creating tabs */}
         <header>
             <nav className='h-14 flex items-end px-3 md:px-5 lg:px-10 max-sm:justify-center text-slate-400 dark:text-slate-600 '>

@@ -7,8 +7,8 @@ function WishlistPage() {
   const {wishlist, total} = slice
   
   return (
-    <main className='dark:bg-black dark:text-white min-h-dvh'>
-      { !!total && (<span className="inline-flex items-center rounded-md bg-yellow-50 px-2 py-1 text-xs font-medium text-yellow-800 ring-1 ring-inset ring-yellow-600/20 dark:bg-yellow-500 dark:text-yellow-900 float-right mt-4 mr-2 select-none">
+    <main className='dark:bg-black dark:text-white min-h-dvh bg-slate-100 rounded-md'>
+      { !!total && (<span className="inline-flex items-center rounded-md bg-gradient-to-tr from-cyan-100 to-green-1-00 p-2 text-xs font-medium text-cyan-800 ring-1 ring-inset ring-cyan-600/20 dark:bg-cyan-400 dark:bg-gradient-to-tr dark:from-cyan-400 dark:to-green-400 dark:text-cyan-950 float-right mt-4 mr-2 select-none capitalize">
        {total} Items in wishlist
       </span>) }
        

@@ -61,7 +61,7 @@ function PurchasePage() {
         .then(() => {
             dispatch(addPurchasedBook({purchase}))
             dispatch(deleteWish(book._id))
-            navigate('/myBooks')
+            navigate('/purchased-books')
         }).catch(err => {
             console.log('while purchasing error happens, ',err)
         })

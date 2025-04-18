@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { CiLight, CiDark } from "react-icons/ci";
 import { readLocalStorage, setLocalStorage } from '../utility';
 
-
-function ToggleButton() {
+function ThemeButton() {
   const [ theme, setTheme ] = useState(readLocalStorage('theme') || 'light')
 
     function setAppTheme(theme) {
@@ -17,10 +16,11 @@ function ToggleButton() {
     }
 
     const changeTheme = () => {
-      setLocalStorage('theme', theme?.toLowerCase() === 'dark' ? 'light' : 'dark')
-      setTheme(theme?.toLowerCase() === 'dark' ? 'light' : 'dark')
+      const newTheme = theme?.toLowerCase() === 'dark' ? 'light' : 'dark'
+      setLocalStorage('theme', newTheme)
+      setTheme(newTheme)
 
-      setAppTheme(theme === 'dark' ? 'light' : 'dark')
+      setAppTheme(newTheme)
       
     }
 
@@ -33,10 +33,10 @@ function ToggleButton() {
     <div 
         className='w-10 h-10 rounded-lg grid place-items-center cursor-pointer gap-1 py-2 select-none dark:text-white dark:hover:bg-slate-600 hover:bg-slate-300'
         onClick={changeTheme}
+        title={`${theme?.toLowerCase() === 'dark' ? 'Light' : 'Dark'} Mode`}
     >
-      {theme === 'dark' ? <CiDark size={24} /> : <CiLight size={24} />}
+      {theme === 'light' ? <CiDark size={24} /> : <CiLight size={24} />}
     </div>
   )
 }
-
-export default ToggleButton
+export default ThemeButton

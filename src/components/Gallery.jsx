@@ -23,7 +23,7 @@ function Gallery({
         ''
       }
       
-      <div className='responsive-grid-layout grid gap-3 p-4 sm:p-10 lg:px-10 xl:px-32'>
+      <div className='responsive-grid-layout grid gap-3 py-4'>
           {isLoading ? 
             (
               new Array(items).fill().map((_, i) => i+1).map(item => <BookcardSkeleton key={item} />)
