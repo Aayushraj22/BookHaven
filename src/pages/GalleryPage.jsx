@@ -131,6 +131,10 @@ function GalleryPage() {
         setIsGenreListOpen(prev => !prev)
     }
 
+    const resetGenre = () => {
+        setGenre(null)
+        toggleGenreListDisplay()
+    }
 
 
     useEffect(() => {
@@ -142,7 +146,7 @@ function GalleryPage() {
         abortControllerRef.current = abortController
 
         setIsLoading(true)
-        const endpoint = `${tab}?page=${pageInfo.curPage}${genre && `&genre=${genre}`}`
+        const endpoint = `${tab}?page=${pageInfo.curPage}` + (genre ? `&genre=${genre}` : '')
 
         fetchData(endpoint, navigate)
         .then(data => {
@@ -270,20 +274,38 @@ function GalleryPage() {
                 </div>
             </section>) : (<section className='flex flex-col gap-2 px-5 py-4'>
                 
-                <Button 
-                    text={'capitalise text-xs font-semibold'}  
-                    bg={'bg-slate-200 dark:bg-slate-800'}
-                    color={'text-slate-500 dark:text-slate-300 '}
-                    padding={'px-4 py-2'}
-                    height={'fit-content'}
-                    width={'w-fit'}
-                    margin={'ml-2'}
-                    hover={'hover:text-slate-600 hover:bg-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-200'}
-                    display={'hidden sm:block'}
-                    clickMethod={toggleGenreListDisplay}
-                >
-                    {isGenreListOpen ? 'close genres' : 'open genres'}
-                </Button>
+                <div className='flex gap-1'>
+                    <Button 
+                        text={'capitalise text-xs font-semibold'}  
+                        bg={'bg-slate-200 dark:bg-slate-800'}
+                        color={'text-slate-500 dark:text-slate-300 '}
+                        padding={'px-4 py-2'}
+                        height={'fit-content'}
+                        width={'w-fit'}
+                        margin={'ml-2'}
+                        hover={'hover:text-slate-600 hover:bg-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-200'}
+                        display={'hidden sm:block'}
+                        clickMethod={toggleGenreListDisplay}
+                    >
+                        {isGenreListOpen ? 'close genres' : 'open genres'}
+                    </Button>
+
+                    <Button 
+                        text={'capitalise text-xs font-semibold'}  
+                        bg={'bg-slate-200 dark:bg-slate-800'}
+                        color={'text-slate-500 dark:text-slate-300 '}
+                        padding={'px-4 py-2'}
+                        height={'fit-content'}
+                        width={'w-fit'}
+                        margin={'ml-2'}
+                        hover={`${genre ? 'cursor-pointer hover:text-slate-600 hover:bg-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-200' : 'cursor-not-allowed'}`}
+                        display={ genre ? 'block' : 'hidden' }
+                        disable={ !genre } 
+                        clickMethod={resetGenre}
+                    >
+                        reset
+                    </Button>
+                </div>
 
                 <AnimatePresence>
                     {isGenreListOpen && (<motion.div 
