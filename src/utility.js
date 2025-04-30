@@ -217,6 +217,61 @@ function isLeapYear ( year ) {
 }
 
 
+const genres = [
+    "adventure",
+    "allegory",
+    "autobiographical fiction",
+    "autobiography",
+    "children",
+    "classic",
+    "colonial",
+    "coming of age",
+    "crime",
+    "cultural",
+    "development",
+    "drama",
+    "education",
+    "epic",
+    "essays",
+    "family",
+    "fantasy",
+    "future studies",
+    "gothic",
+    "health",
+    "historical",
+    "historical fiction",
+    "identity",
+    "immigration",
+    "inspirational",
+    "literary",
+    "magical realism",
+    "mythology",
+    "non-fiction",
+    "partition",
+    "philosophical",
+    "philosophy",
+    "poetry",
+    "political",
+    "psychological",
+    "religion",
+    "religious",
+    "romance",
+    "satire",
+    "science",
+    "science fiction",
+    "sea story",
+    "self-help",
+    "short stories",
+    "slice of life",
+    "social issues",
+    "social reform",
+    "spiritual",
+    "spirituality",
+    "teen",
+    "war"
+  ]
+  
+
 
 
 export { 
@@ -231,5 +286,6 @@ export {
     toastMsg,
     listenerToCheckInternetConnection,
     modifyData,
-    getAge
+    getAge,
+    genres
 }

@@ -178,7 +178,7 @@ function Navbar() {
                     onClick={handleToggleSettingBlock}  
                   >
                     <div 
-                      className='float-end mt-10 p-1 bg-slate-200 dark:bg-slate-800 rounded w-36  border-2' 
+                      className='float-end mt-10 p-1 bg-slate-200 dark:bg-slate-800 rounded w-36 ' 
                     >
                       <Button 
                         clickMethod={() => handleNavigation('gallery')}
