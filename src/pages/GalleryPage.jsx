@@ -46,7 +46,7 @@ function GalleryPage() {
         }))
 
         // scroll to top on change page
-        document.getElementById('afterRoot').scrollTop = 0
+        document.getElementById('scrollableElement').scrollTop = 0
     }
 
     const skeletonToDisplay = () => {

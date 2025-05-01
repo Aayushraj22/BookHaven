@@ -58,6 +58,7 @@ function Layout() {
     <section 
       ref={scrollEleRef} 
       className='no-scrollbar flex flex-col h-dvh w-dvw overflow-y-auto scroll-smooth bg-slate-200 dark:bg-slate-900'
+      id='scrollableElement'
     >
       <Navbar />
       <div className='flex-1 sm:px-10 lg:px-20 xl:px-32 '>
